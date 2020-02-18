@@ -5,7 +5,8 @@
     "pages/demo-1/demo-1",
     "pages/demo-2/demo-2",
     "pages/demo-3/demo-3",
-    "pages/demo-4/demo-4"
+    "pages/demo-4/demo-4",
+    "pages/demo-5/demo-5"
   ],
   "window": {
     "backgroundTextStyle": "light",

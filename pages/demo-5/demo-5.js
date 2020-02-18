@@ -25,50 +25,31 @@ Page({
     let ctx = wx.createCanvasContext('firstCanvas');
     //注意这里的初始化参数，因为微信小程序不允许操作 DOM，所以引擎不能自动获取到宽度高度，这里需要手动传进去
     let qr = QuarkRenderer.init(ctx,{width:300,height:500,renderer:'canvas'});
-    console.log(qr);
-    let gradient = new QuarkRenderer.LinearGradient();
-        gradient.addColorStop(0, 'red');
-        gradient.addColorStop(1, 'black');
+    let polygon = new QuarkRenderer.Polygon({
+        position: [100, 100],
+        scale: [1, 1],
+        style: {
+            fill: 'red'
+        }
+    });
 
-        let circle = new QuarkRenderer.Circle({
-            position: [0, 0],
-            scale: [1, 1],
+    setInterval(function () {
+        let len = Math.round(Math.random() * 100);
+        let points = [];
+        let r = (Math.random() * 100);
+        for (let i = 0; i <= len; i++) {
+            let phi = i / len * Math.PI * 2;
+            let x = Math.cos(phi) * r + 100;
+            let y = Math.sin(phi) * r + 100;
+            points.push([x, y]);
+        }
+        polygon.animateTo({
             shape: {
-                cx: 50,
-                cy: 50,
-                r: 50
-            },
-            style: {
-                fill: gradient,
-                lineWidth: 5,
-                text:'circle',
-                textPosition:'inside'
+                points: points
             }
-        });
-        qr.add(circle);
-        
-        let ap=circle.animate('', true)
-            .when(1000, {
-                position: [200, 0],
-                scale: [2, 2]
-            })
-            .when(2000, {
-                position: [200, 200],
-                scale: [1, 1]
-            })
-            .when(3000, {
-                position: [0, 200],
-                scale: [1, 1]
-            })
-            .when(4000, {
-                position: [0, 0],
-                scale: [1, 1]
-            })
-            .start();
-
-        setTimeout(()=>{
-            ap.stop();
-        },5000);
+        }, 500, 'cubicOut');
+    }, 1000);
+    qr.add(polygon);
   },
 
   /**

@@ -1,0 +1,14 @@
+{
+  "name": "quark-renderer-wechat-examples",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "大漠穷秋",
+  "license": "MIT",
+  "dependencies": {
+    "quark-renderer": "^1.0.11"
+  }
+}

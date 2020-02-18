@@ -1,4 +1,7 @@
-// pages/demo-4/demo-4.js
+//这里使用 Node 模块的方式引入 Quark Renderer
+let QuarkRenderer=require("quark-renderer");
+console.log(QuarkRenderer);
+
 Page({
 
   /**
@@ -19,7 +22,53 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
+    let ctx = wx.createCanvasContext('firstCanvas');
+    //注意这里的初始化参数，因为微信小程序不允许操作 DOM，所以引擎不能自动获取到宽度高度，这里需要手动传进去
+    let qr = QuarkRenderer.init(ctx,{width:300,height:500,renderer:'canvas'});
+    console.log(qr);
+    let gradient = new QuarkRenderer.LinearGradient();
+        gradient.addColorStop(0, 'red');
+        gradient.addColorStop(1, 'black');
 
+        let circle = new QuarkRenderer.Circle({
+            position: [0, 0],
+            scale: [1, 1],
+            shape: {
+                cx: 50,
+                cy: 50,
+                r: 50
+            },
+            style: {
+                fill: gradient,
+                lineWidth: 5,
+                text:'circle',
+                textPosition:'inside'
+            }
+        });
+        qr.add(circle);
+        
+        let ap=circle.animate('', true)
+            .when(1000, {
+                position: [200, 0],
+                scale: [2, 2]
+            })
+            .when(2000, {
+                position: [200, 200],
+                scale: [1, 1]
+            })
+            .when(3000, {
+                position: [0, 200],
+                scale: [1, 1]
+            })
+            .when(4000, {
+                position: [0, 0],
+                scale: [1, 1]
+            })
+            .start();
+
+        setTimeout(()=>{
+            ap.stop();
+        },5000);
   },
 
   /**

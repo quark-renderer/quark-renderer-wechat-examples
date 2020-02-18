@@ -4,10 +4,10 @@
     <view class="page__title">Quark Renderer 微信小程序用法</view>
   </view>
   <view class="page__bd page__bd_spacing">
-    <button class="weui-btn" type="primary" bindtap="toDemo1">Demo-1</button>
-    <button class="weui-btn" type="primary" bindtap="toDemo2">Demo-2</button>
-    <button class="weui-btn" type="primary" bindtap="toDemo3">Demo-3</button>
-    <button class="weui-btn" type="primary" bindtap="toDemo4">Demo-4</button>
-    <button class="weui-btn" type="primary" bindtap="toDemo5">Demo-5</button>
+    <button class="weui-btn" type="primary" bindtap="toDemo1">Demo-1 微信Canvas</button>
+    <button class="weui-btn" type="primary" bindtap="toDemo2">Demo-2 Quark Renderer 初始化</button>
+    <button class="weui-btn" type="primary" bindtap="toDemo3">Demo-3 动画案例1</button>
+    <button class="weui-btn" type="primary" bindtap="toDemo4">Demo-4 动画案例2</button>
+    <button class="weui-btn" type="primary" bindtap="toDemo5">Demo-5 动画案例3</button>
   </view>
 </view>
