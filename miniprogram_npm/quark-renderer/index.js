@@ -4,7 +4,7 @@ var __DEFINE__ = function(modId, func, req) { var m = { exports: {}, _tempexport
 var __REQUIRE__ = function(modId, source) { if(!__MODS__[modId]) return require(source); if(!__MODS__[modId].status) { var m = __MODS__[modId].m; m._exports = m._tempexports; var desp = Object.getOwnPropertyDescriptor(m, "exports"); if (desp && desp.configurable) Object.defineProperty(m, "exports", { set: function (val) { if(typeof val === "object" && val !== m._exports) { m._exports.__proto__ = val.__proto__; Object.keys(val).forEach(function (k) { m._exports[k] = val[k]; }); } m._tempexports = val }, get: function () { return m._tempexports; } }); __MODS__[modId].status = 1; __MODS__[modId].func(__MODS__[modId].req, m, m.exports); } return __MODS__[modId].m.exports; };
 var __REQUIRE_WILDCARD__ = function(obj) { if(obj && obj.__esModule) { return obj; } else { var newObj = {}; if(obj != null) { for(var k in obj) { if (Object.prototype.hasOwnProperty.call(obj, k)) newObj[k] = obj[k]; } } newObj.default = obj; return newObj; } };
 var __REQUIRE_DEFAULT__ = function(obj) { return obj && obj.__esModule ? obj.default : obj; };
-__DEFINE__(1581942127612, function(require, module, exports) {
+__DEFINE__(1582083283697, function(require, module, exports) {
 var _quarkRenderer = require("./lib/quark-renderer");
 
 (function () {
@@ -24,10 +24,8 @@ var _export = require("./lib/export");
 })();
 
 require("./lib/svg/svg");
-
-require("./lib/vml/vml");
-}, function(modId) {var map = {"./lib/quark-renderer":1581942127613,"./lib/export":1581942127657,"./lib/svg/svg":1581942127699,"./lib/vml/vml":1581942127708}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127613, function(require, module, exports) {
+}, function(modId) {var map = {"./lib/quark-renderer":1582083283698,"./lib/export":1582083283742,"./lib/svg/svg":1582083283784}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283698, function(require, module, exports) {
 var guid = require("./core/utils/guid");
 
 var env = require("./core/env");
@@ -66,7 +64,6 @@ if (!env.canvasSupported) {
   throw new Error("Need Canvas Environment.");
 }
 
-var useVML = !env.canvasSupported;
 var painterMap = {
   canvas: CanvasPainter
 }; // QuarkRenderer 实例map索引，浏览器中同一个 window 下的 QuarkRenderer 实例都存在这里。
@@ -76,7 +73,7 @@ var instances = {};
  * @property {String}
  */
 
-var version = '4.1.2';
+var version = '1.0.11';
 /**
  * @method qrenderer.init()
  * Global entry for creating a qrenderer instance.
@@ -181,16 +178,9 @@ function () {
      */
 
     this.storage = new Storage();
-    var rendererType = options.renderer; // TODO:WebGL
-    // TODO: remove vml
+    var rendererType = options.renderer | 'canvas'; // TODO:WebGL
 
-    if (useVML) {
-      if (!painterMap.vml) {
-        throw new Error('You need to require \'qrenderer/vml/vml\' to support IE8');
-      }
-
-      rendererType = 'vml';
-    } else if (!rendererType || !painterMap[rendererType]) {
+    if (!rendererType || !painterMap[rendererType]) {
       rendererType = 'canvas';
     } //根据参数创建不同类型的 Painter 实例。
 
@@ -201,7 +191,7 @@ function () {
     if (typeof this.host.moveTo !== 'function') {
       //代理DOM事件。
       if (!env.node && !env.worker && !env.wxa) {
-        handerProxy = new DomEventProxy(this.painter.getViewportRoot());
+        handerProxy = new DomEventProxy(this.painter.getHost());
       }
     } else {
       // host is Context instance, override function.
@@ -704,8 +694,8 @@ exports.init = init;
 exports.dispose = dispose;
 exports.getInstance = getInstance;
 exports.registerPainter = registerPainter;
-}, function(modId) { var map = {"./core/utils/guid":1581942127614,"./core/env":1581942127615,"./event/QRendererEventHandler":1581942127616,"./Storage":1581942127626,"./CanvasPainter":1581942127640,"./animation/GlobalAnimationMgr":1581942127655,"./event/DomEventProxy":1581942127656,"./core/contain/text":1581942127652}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127614, function(require, module, exports) {
+}, function(modId) { var map = {"./core/utils/guid":1582083283699,"./core/env":1582083283700,"./event/QRendererEventHandler":1582083283701,"./Storage":1582083283711,"./CanvasPainter":1582083283725,"./animation/GlobalAnimationMgr":1582083283740,"./event/DomEventProxy":1582083283741,"./core/contain/text":1582083283737}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283699, function(require, module, exports) {
 /**
  * 生成唯一id
  * @author errorrik (errorrik@gmail.com)
@@ -718,7 +708,7 @@ function _default() {
 
 module.exports = _default;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127615, function(require, module, exports) {
+__DEFINE__(1582083283700, function(require, module, exports) {
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 /**
@@ -871,7 +861,7 @@ if ((typeof wx === "undefined" ? "undefined" : _typeof(wx)) === 'object' && type
 var _default = env;
 module.exports = _default;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127616, function(require, module, exports) {
+__DEFINE__(1582083283701, function(require, module, exports) {
 var dataUtil = require("../core/utils/data_structure_util");
 
 var classUtil = require("../core/utils/class_util");
@@ -1255,8 +1245,7 @@ QRendererEventHandler.prototype = {
     for (var i = list.length - 1; i >= 0; i--) {
       var hoverCheckResult;
 
-      if (list[i] !== exclude // getDisplayList may include ignored item in VML mode
-      && !list[i].ignore && (hoverCheckResult = isHover(list[i], x, y))) {
+      if (list[i] !== exclude && !list[i].ignore && (hoverCheckResult = isHover(list[i], x, y))) {
         !out.topTarget && (out.topTarget = list[i]);
 
         if (hoverCheckResult !== SILENT) {
@@ -1327,8 +1316,8 @@ dataUtil.each(['click', 'mousedown', 'mouseup', 'mousewheel', 'dblclick', 'conte
 classUtil.mixin(QRendererEventHandler, Eventful);
 var _default = QRendererEventHandler;
 module.exports = _default;
-}, function(modId) { var map = {"../core/utils/data_structure_util":1581942127617,"../core/utils/class_util":1581942127619,"../core/utils/vector":1581942127620,"../core/utils/event_util":1581942127621,"./MultiDragDrop":1581942127624,"./Eventful":1581942127622,"./GestureMgr":1581942127625}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127617, function(require, module, exports) {
+}, function(modId) { var map = {"../core/utils/data_structure_util":1582083283702,"../core/utils/class_util":1582083283704,"../core/utils/vector":1582083283705,"../core/utils/event_util":1582083283706,"./MultiDragDrop":1582083283709,"./Eventful":1582083283707,"./GestureMgr":1582083283710}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283702, function(require, module, exports) {
 var _constants = require("../../graphic/constants");
 
 var mathFloor = _constants.mathFloor;
@@ -2206,8 +2195,8 @@ exports.cloneValue = cloneValue;
 exports.rgba2String = rgba2String;
 exports.getArrayDim = getArrayDim;
 exports.parseInt10 = parseInt10;
-}, function(modId) { var map = {"../../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127618, function(require, module, exports) {
+}, function(modId) { var map = {"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283703, function(require, module, exports) {
 var ContextCachedBy = {
   NONE: 0,
   STYLE_BIND: 1,
@@ -2305,7 +2294,7 @@ exports.mathTan = mathTan;
 exports.mathTanh = mathTanh;
 exports.mathTrunc = mathTrunc;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127619, function(require, module, exports) {
+__DEFINE__(1582083283704, function(require, module, exports) {
 /**
  * 构造类继承关系
  *
@@ -2417,7 +2406,7 @@ exports.inheritProperties = inheritProperties;
 exports.defaults = defaults;
 exports.copyOwnProperties = copyOwnProperties;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127620, function(require, module, exports) {
+__DEFINE__(1582083283705, function(require, module, exports) {
 var _constants = require("../../graphic/constants");
 
 var mathSqrt = _constants.mathSqrt;
@@ -2738,8 +2727,8 @@ exports.lerp = lerp;
 exports.applyTransform = applyTransform;
 exports.min = min;
 exports.max = max;
-}, function(modId) { var map = {"../../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127621, function(require, module, exports) {
+}, function(modId) { var map = {"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283706, function(require, module, exports) {
 var Eventful = require("../../event/Eventful");
 
 exports.Dispatcher = Eventful;
@@ -3049,8 +3038,8 @@ exports.removeEventListener = removeEventListener;
 exports.stop = stop;
 exports.isMiddleOrRightButtonOnMouseUpDown = isMiddleOrRightButtonOnMouseUpDown;
 exports.notLeftMouse = notLeftMouse;
-}, function(modId) { var map = {"../../event/Eventful":1581942127622,"../env":1581942127615,"./four_points_transform":1581942127623}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127622, function(require, module, exports) {
+}, function(modId) { var map = {"../../event/Eventful":1582083283707,"../env":1582083283700,"./four_points_transform":1582083283708}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283707, function(require, module, exports) {
 /**
  * @abstract
  * @class qrenderer.event.Eventful
@@ -3382,7 +3371,7 @@ function _on(eventful, event, query, handler, context, isOnce) {
 var _default = Eventful;
 module.exports = _default;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127623, function(require, module, exports) {
+__DEFINE__(1582083283708, function(require, module, exports) {
 var _constants = require("../../graphic/constants");
 
 var mathLog = _constants.mathLog;
@@ -3480,8 +3469,8 @@ function buildTransformer(src, dest) {
 }
 
 exports.buildTransformer = buildTransformer;
-}, function(modId) { var map = {"../../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127624, function(require, module, exports) {
+}, function(modId) { var map = {"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283709, function(require, module, exports) {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -3660,7 +3649,7 @@ function () {
 
 module.exports = MultiDragDrop;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127625, function(require, module, exports) {
+__DEFINE__(1582083283710, function(require, module, exports) {
 var eventUtil = require("../core/utils/event_util");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -3785,8 +3774,8 @@ function () {
 
 var _default = GestureMgr;
 module.exports = _default;
-}, function(modId) { var map = {"../core/utils/event_util":1581942127621}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127626, function(require, module, exports) {
+}, function(modId) { var map = {"../core/utils/event_util":1582083283706}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283711, function(require, module, exports) {
 var util = require("./core/utils/data_structure_util");
 
 var env = require("./core/env");
@@ -4062,8 +4051,8 @@ Storage.prototype = {
 };
 var _default = Storage;
 module.exports = _default;
-}, function(modId) { var map = {"./core/utils/data_structure_util":1581942127617,"./core/env":1581942127615,"./graphic/Group":1581942127627,"./core/utils/timsort":1581942127639}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127627, function(require, module, exports) {
+}, function(modId) { var map = {"./core/utils/data_structure_util":1582083283702,"./core/env":1582083283700,"./graphic/Group":1582083283712,"./core/utils/timsort":1582083283724}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283712, function(require, module, exports) {
 var classUtil = require("../core/utils/class_util");
 
 var Element = require("./Element");
@@ -4487,8 +4476,8 @@ function (_Element) {
 
 var _default = Group;
 module.exports = _default;
-}, function(modId) { var map = {"../core/utils/class_util":1581942127619,"./Element":1581942127628,"./transform/BoundingRect":1581942127638,"../core/utils/data_structure_util":1581942127617}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127628, function(require, module, exports) {
+}, function(modId) { var map = {"../core/utils/class_util":1582083283704,"./Element":1582083283713,"./transform/BoundingRect":1582083283723,"../core/utils/data_structure_util":1582083283702}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283713, function(require, module, exports) {
 var guid = require("../core/utils/guid");
 
 var Eventful = require("../event/Eventful");
@@ -4906,8 +4895,8 @@ classUtil.mixin(Element, Transformable);
 classUtil.mixin(Element, Eventful);
 var _default = Element;
 module.exports = _default;
-}, function(modId) { var map = {"../core/utils/guid":1581942127614,"../event/Eventful":1581942127622,"./transform/Transformable":1581942127629,"../animation/Animatable":1581942127631,"../core/utils/data_structure_util":1581942127617,"../core/utils/class_util":1581942127619}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127629, function(require, module, exports) {
+}, function(modId) { var map = {"../core/utils/guid":1582083283699,"../event/Eventful":1582083283707,"./transform/Transformable":1582083283714,"../animation/Animatable":1582083283716,"../core/utils/data_structure_util":1582083283702,"../core/utils/class_util":1582083283704}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283714, function(require, module, exports) {
 var matrix = require("../../core/utils/matrix");
 
 var vector = require("../../core/utils/vector");
@@ -5243,8 +5232,8 @@ Transformable.getLocalTransform = function (target, m) {
 
 var _default = Transformable;
 module.exports = _default;
-}, function(modId) { var map = {"../../core/utils/matrix":1581942127630,"../../core/utils/vector":1581942127620,"../constants":1581942127618,"../../core/utils/class_util":1581942127619}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127630, function(require, module, exports) {
+}, function(modId) { var map = {"../../core/utils/matrix":1582083283715,"../../core/utils/vector":1582083283705,"../constants":1582083283703,"../../core/utils/class_util":1582083283704}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283715, function(require, module, exports) {
 var _constants = require("../../graphic/constants");
 
 var mathSin = _constants.mathSin;
@@ -5435,8 +5424,8 @@ exports.rotate = rotate;
 exports.scale = scale;
 exports.invert = invert;
 exports.clone = clone;
-}, function(modId) { var map = {"../../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127631, function(require, module, exports) {
+}, function(modId) { var map = {"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283716, function(require, module, exports) {
 var AnimationProcess = require("./AnimationProcess");
 
 var dataUtil = require("../core/utils/data_structure_util");
@@ -5730,8 +5719,8 @@ function setAttrByPath(el, path, prop, value) {
 
 var _default = Animatable;
 module.exports = _default;
-}, function(modId) { var map = {"./AnimationProcess":1581942127632,"../core/utils/data_structure_util":1581942127617}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127632, function(require, module, exports) {
+}, function(modId) { var map = {"./AnimationProcess":1582083283717,"../core/utils/data_structure_util":1582083283702}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283717, function(require, module, exports) {
 var dataUtil = require("../core/utils/data_structure_util");
 
 var Track = require("./Track");
@@ -6063,8 +6052,8 @@ function () {
 
 var _default = AnimationProcess;
 module.exports = _default;
-}, function(modId) { var map = {"../core/utils/data_structure_util":1581942127617,"./Track":1581942127633}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127633, function(require, module, exports) {
+}, function(modId) { var map = {"../core/utils/data_structure_util":1582083283702,"./Track":1582083283718}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283718, function(require, module, exports) {
 var Timeline = require("./Timeline");
 
 var colorUtil = require("../core/utils/color_util");
@@ -6407,8 +6396,8 @@ function () {
 }();
 
 module.exports = Track;
-}, function(modId) { var map = {"./Timeline":1581942127634,"../core/utils/color_util":1581942127636,"../core/utils/data_structure_util":1581942127617,"../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127634, function(require, module, exports) {
+}, function(modId) { var map = {"./Timeline":1582083283719,"../core/utils/color_util":1582083283721,"../core/utils/data_structure_util":1582083283702,"../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283719, function(require, module, exports) {
 var easingFuncs = require("./utils/easing");
 
 var _constants = require("../graphic/constants");
@@ -6561,8 +6550,8 @@ function () {
 }();
 
 module.exports = Timeline;
-}, function(modId) { var map = {"./utils/easing":1581942127635,"../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127635, function(require, module, exports) {
+}, function(modId) { var map = {"./utils/easing":1582083283720,"../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283720, function(require, module, exports) {
 var _constants = require("../../graphic/constants");
 
 var mathAsin = _constants.mathAsin;
@@ -6952,8 +6941,8 @@ var easing = {
 };
 var _default = easing;
 module.exports = _default;
-}, function(modId) { var map = {"../../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127636, function(require, module, exports) {
+}, function(modId) { var map = {"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283721, function(require, module, exports) {
 var LRU = require("../LRU");
 
 var _constants = require("../../graphic/constants");
@@ -7582,8 +7571,8 @@ exports.mapToColor = mapToColor;
 exports.modifyHSL = modifyHSL;
 exports.modifyAlpha = modifyAlpha;
 exports.stringify = stringify;
-}, function(modId) { var map = {"../LRU":1581942127637,"../../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127637, function(require, module, exports) {
+}, function(modId) { var map = {"../LRU":1582083283722,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283722, function(require, module, exports) {
 // Simple LRU cache use doubly linked list
 
 /**
@@ -7786,7 +7775,7 @@ LRUProto.clear = function () {
 var _default = LRU;
 module.exports = _default;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127638, function(require, module, exports) {
+__DEFINE__(1582083283723, function(require, module, exports) {
 var vec2 = require("../../core/utils/vector");
 
 var matrix = require("../../core/utils/matrix");
@@ -8023,8 +8012,8 @@ function () {
 
 var _default = BoundingRect;
 module.exports = _default;
-}, function(modId) { var map = {"../../core/utils/vector":1581942127620,"../../core/utils/matrix":1581942127630,"../constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127639, function(require, module, exports) {
+}, function(modId) { var map = {"../../core/utils/vector":1582083283705,"../../core/utils/matrix":1582083283715,"../constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283724, function(require, module, exports) {
 // https://github.com/mziccard/node-timsort
 var DEFAULT_MIN_MERGE = 32;
 var DEFAULT_MIN_GALLOPING = 7;
@@ -8692,7 +8681,7 @@ function sort(array, compare, lo, hi) {
 
 module.exports = sort;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127640, function(require, module, exports) {
+__DEFINE__(1582083283725, function(require, module, exports) {
 var requestAnimationFrame = require("./animation/utils/request_animation_frame");
 
 var _config = require("./config");
@@ -8730,7 +8719,6 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
  * @class qrenderer.canvas.CanvasPainter
  * 这是基于 canvas 接口的 CanvasPainter 类
  * @see 基于 SVG 接口的 CanvasPainter 类在 svg 目录下
- * @see 基于 VML 接口的 CanvasPainter 类在 vml 目录下
  */
 var HOVER_LAYER_QLEVEL = 1e5;
 var CANVAS_QLEVEL = 314159;
@@ -9359,15 +9347,15 @@ function () {
           var prevDom = prevLayer.canvasInstance;
 
           if (prevDom.nextSibling) {
-            this.host.insertBefore(layer.canvasInstance, prevDom.nextSibling);
+            this._host.insertBefore(layer.canvasInstance, prevDom.nextSibling);
           } else {
-            this.host.appendChild(layer.canvasInstance);
+            this._host.appendChild(layer.canvasInstance);
           }
         } else {
-          if (this.host.firstChild) {
-            this.host.insertBefore(layer.canvasInstance, this.host.firstChild);
+          if (this._host.firstChild) {
+            this._host.insertBefore(layer.canvasInstance, this._host.firstChild);
           } else {
-            this.host.appendChild(layer.canvasInstance);
+            this._host.appendChild(layer.canvasInstance);
           }
         }
       }
@@ -10003,8 +9991,8 @@ function () {
 }();
 
 module.exports = CanvasPainter;
-}, function(modId) { var map = {"./animation/utils/request_animation_frame":1581942127641,"./config":1581942127642,"./core/utils/data_structure_util":1581942127617,"./graphic/transform/BoundingRect":1581942127638,"./core/utils/timsort":1581942127639,"./CanvasLayer":1581942127643,"./graphic/Image":1581942127648,"./core/env":1581942127615,"./graphic/constants":1581942127618,"./core/utils/canvas_util":1581942127644,"./core/utils/guid":1581942127614}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127641, function(require, module, exports) {
+}, function(modId) { var map = {"./animation/utils/request_animation_frame":1582083283726,"./config":1582083283727,"./core/utils/data_structure_util":1582083283702,"./graphic/transform/BoundingRect":1582083283723,"./core/utils/timsort":1582083283724,"./CanvasLayer":1582083283728,"./graphic/Image":1582083283733,"./core/env":1582083283700,"./graphic/constants":1582083283703,"./core/utils/canvas_util":1582083283729,"./core/utils/guid":1582083283699}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283726, function(require, module, exports) {
 /**
  * 兼容多种运行环境的 requestAnimationFrame 方法。
  * 有两个重要的地方会依赖此方法：
@@ -10019,7 +10007,7 @@ var _default = typeof window !== 'undefined' && (window.requestAnimationFrame &&
 
 module.exports = _default;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127642, function(require, module, exports) {
+__DEFINE__(1582083283727, function(require, module, exports) {
 var dpr = 1; // If in browser environment
 
 if (typeof window !== 'undefined') {
@@ -10044,7 +10032,7 @@ var devicePixelRatio = dpr;
 exports.debugMode = debugMode;
 exports.devicePixelRatio = devicePixelRatio;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127643, function(require, module, exports) {
+__DEFINE__(1582083283728, function(require, module, exports) {
 var dataUtil = require("./core/utils/data_structure_util");
 
 var canvasUtil = require("./core/utils/canvas_util");
@@ -10328,8 +10316,8 @@ function () {
 }();
 
 module.exports = CanvasLayer;
-}, function(modId) { var map = {"./core/utils/data_structure_util":1581942127617,"./core/utils/canvas_util":1581942127644,"./graphic/Style":1581942127645,"./graphic/Pattern":1581942127647,"./core/utils/guid":1581942127614}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127644, function(require, module, exports) {
+}, function(modId) { var map = {"./core/utils/data_structure_util":1582083283702,"./core/utils/canvas_util":1582083283729,"./graphic/Style":1582083283730,"./graphic/Pattern":1582083283732,"./core/utils/guid":1582083283699}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283729, function(require, module, exports) {
 var guid = require("./guid");
 
 /**
@@ -10381,8 +10369,8 @@ function getContext(canvasInstance) {
 
 exports.createCanvas = createCanvas;
 exports.getContext = getContext;
-}, function(modId) { var map = {"./guid":1581942127614}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127645, function(require, module, exports) {
+}, function(modId) { var map = {"./guid":1582083283699}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283730, function(require, module, exports) {
 var fixShadow = require("./utils/fix_shadow");
 
 var _constants = require("./constants");
@@ -10889,8 +10877,8 @@ for (var i = 0; i < STYLE_COMMON_PROPS.length; i++) {
 Style.getGradient = styleProto.getGradient;
 var _default = Style;
 module.exports = _default;
-}, function(modId) { var map = {"./utils/fix_shadow":1581942127646,"./constants":1581942127618,"../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127646, function(require, module, exports) {
+}, function(modId) { var map = {"./utils/fix_shadow":1582083283731,"./constants":1582083283703,"../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283731, function(require, module, exports) {
 var SHADOW_PROPS = {
   'shadowBlur': 1,
   'shadowOffsetX': 1,
@@ -10913,7 +10901,7 @@ function _default(ctx, propName, value) {
 
 module.exports = _default;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127647, function(require, module, exports) {
+__DEFINE__(1582083283732, function(require, module, exports) {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -10961,7 +10949,7 @@ function () {
 var _default = Pattern;
 module.exports = _default;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127648, function(require, module, exports) {
+__DEFINE__(1582083283733, function(require, module, exports) {
 var Displayable = require("./Displayable");
 
 var BoundingRect = require("./transform/BoundingRect");
@@ -11095,8 +11083,8 @@ function (_Displayable) {
 }(Displayable);
 
 module.exports = ZImage;
-}, function(modId) { var map = {"./Displayable":1581942127649,"./transform/BoundingRect":1581942127638,"../core/utils/data_structure_util":1581942127617,"./utils/image":1581942127653}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127649, function(require, module, exports) {
+}, function(modId) { var map = {"./Displayable":1582083283734,"./transform/BoundingRect":1582083283723,"../core/utils/data_structure_util":1582083283702,"./utils/image":1582083283738}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283734, function(require, module, exports) {
 var classUtil = require("../core/utils/class_util");
 
 var Style = require("./Style");
@@ -11433,8 +11421,8 @@ function (_Element) {
 classUtil.mixin(Displayable, RectText);
 var _default = Displayable;
 module.exports = _default;
-}, function(modId) { var map = {"../core/utils/class_util":1581942127619,"./Style":1581942127645,"./Element":1581942127628,"./RectText":1581942127650}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127650, function(require, module, exports) {
+}, function(modId) { var map = {"../core/utils/class_util":1582083283704,"./Style":1582083283730,"./Element":1582083283713,"./RectText":1582083283735}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283735, function(require, module, exports) {
 var textUtil = require("./utils/text_util");
 
 var BoundingRect = require("./transform/BoundingRect");
@@ -11501,8 +11489,8 @@ RectText.prototype = {
 };
 var _default = RectText;
 module.exports = _default;
-}, function(modId) { var map = {"./utils/text_util":1581942127651,"./transform/BoundingRect":1581942127638,"./constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127651, function(require, module, exports) {
+}, function(modId) { var map = {"./utils/text_util":1582083283736,"./transform/BoundingRect":1582083283723,"./constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283736, function(require, module, exports) {
 var dataUtil = require("../../core/utils/data_structure_util");
 
 var textContain = require("../../core/contain/text");
@@ -12043,8 +12031,8 @@ exports.getStroke = getStroke;
 exports.getFill = getFill;
 exports.parsePercent = parsePercent;
 exports.needDrawText = needDrawText;
-}, function(modId) { var map = {"../../core/utils/data_structure_util":1581942127617,"../../core/contain/text":1581942127652,"./round_rect":1581942127654,"./image":1581942127653,"./fix_shadow":1581942127646,"../constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127652, function(require, module, exports) {
+}, function(modId) { var map = {"../../core/utils/data_structure_util":1582083283702,"../../core/contain/text":1582083283737,"./round_rect":1582083283739,"./image":1582083283738,"./fix_shadow":1582083283731,"../constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283737, function(require, module, exports) {
 var BoundingRect = require("../../graphic/transform/BoundingRect");
 
 var imageHelper = require("../../graphic/utils/image");
@@ -12095,7 +12083,7 @@ function getWidth(text, font) {
   var width = 0;
 
   for (var i = 0, l = textLines.length; i < l; i++) {
-    // textContain.measureText may be overrided in SVG or VML
+    // textContain.measureText may be overrided in SVG.
     width = mathMax(measureText(textLines[i], font).width, width);
   }
 
@@ -12772,8 +12760,8 @@ exports.measureText = measureText;
 exports.parsePlainText = parsePlainText;
 exports.parseRichText = parseRichText;
 exports.makeFont = makeFont;
-}, function(modId) { var map = {"../../graphic/transform/BoundingRect":1581942127638,"../../graphic/utils/image":1581942127653,"../utils/data_structure_util":1581942127617,"../utils/canvas_util":1581942127644,"../../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127653, function(require, module, exports) {
+}, function(modId) { var map = {"../../graphic/transform/BoundingRect":1582083283723,"../../graphic/utils/image":1582083283738,"../utils/data_structure_util":1582083283702,"../utils/canvas_util":1582083283729,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283738, function(require, module, exports) {
 var LRU = require("../../core/LRU");
 
 var globalImageCache = new LRU(50);
@@ -12862,8 +12850,8 @@ function isImageReady(image) {
 exports.findExistImage = findExistImage;
 exports.createOrUpdateImage = createOrUpdateImage;
 exports.isImageReady = isImageReady;
-}, function(modId) { var map = {"../../core/LRU":1581942127637}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127654, function(require, module, exports) {
+}, function(modId) { var map = {"../../core/LRU":1582083283722}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283739, function(require, module, exports) {
 /**
  * @param {Object} ctx
  * @param {Object} shape
@@ -12955,7 +12943,7 @@ function buildPath(ctx, shape) {
 
 exports.buildPath = buildPath;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127655, function(require, module, exports) {
+__DEFINE__(1582083283740, function(require, module, exports) {
 var dataUtil = require("../core/utils/data_structure_util");
 
 var classUtil = require("../core/utils/class_util");
@@ -13170,8 +13158,8 @@ function () {
 classUtil.mixin(GlobalAnimationMgr, Dispatcher);
 var _default = GlobalAnimationMgr;
 module.exports = _default;
-}, function(modId) { var map = {"../core/utils/data_structure_util":1581942127617,"../core/utils/class_util":1581942127619,"../core/utils/event_util":1581942127621,"./utils/request_animation_frame":1581942127641}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127656, function(require, module, exports) {
+}, function(modId) { var map = {"../core/utils/data_structure_util":1582083283702,"../core/utils/class_util":1582083283704,"../core/utils/event_util":1582083283706,"./utils/request_animation_frame":1582083283726}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283741, function(require, module, exports) {
 var Eventful = require("./Eventful");
 
 var eventUtil = require("../core/utils/event_util");
@@ -13677,8 +13665,8 @@ DomEventProxy.prototype.togglePageEvent = function (enableOrDisable) {
 classUtil.mixin(DomEventProxy, Eventful);
 var _default = DomEventProxy;
 module.exports = _default;
-}, function(modId) { var map = {"./Eventful":1581942127622,"../core/utils/event_util":1581942127621,"../core/utils/data_structure_util":1581942127617,"../core/utils/class_util":1581942127619,"../core/env":1581942127615}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127657, function(require, module, exports) {
+}, function(modId) { var map = {"./Eventful":1582083283707,"../core/utils/event_util":1582083283706,"../core/utils/data_structure_util":1582083283702,"../core/utils/class_util":1582083283704,"../core/env":1582083283700}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283742, function(require, module, exports) {
 var dataUtil = require("./core/utils/data_structure_util");
 
 exports.dataUtil = dataUtil;
@@ -13811,8 +13799,8 @@ exports.Pattern = _Pattern;
 var _BoundingRect = require("./graphic/transform/BoundingRect");
 
 exports.BoundingRect = _BoundingRect;
-}, function(modId) { var map = {"./core/utils/data_structure_util":1581942127617,"./core/utils/color_util":1581942127636,"./core/utils/path_util":1581942127658,"./core/utils/canvas_util":1581942127644,"./core/utils/matrix":1581942127630,"./core/utils/vector":1581942127620,"./svg/SVGParser":1581942127671,"./graphic/Group":1581942127627,"./graphic/Path":1581942127659,"./graphic/Image":1581942127648,"./graphic/CompoundPath":1581942127685,"./graphic/Text":1581942127672,"./graphic/IncrementalDisplayable":1581942127686,"./graphic/shape/Arc":1581942127687,"./graphic/shape/BezierCurve":1581942127688,"./graphic/shape/Circle":1581942127673,"./graphic/shape/Droplet":1581942127689,"./graphic/shape/Ellipse":1581942127676,"./graphic/shape/Heart":1581942127690,"./graphic/shape/Isogon":1581942127691,"./graphic/shape/Line":1581942127677,"./graphic/shape/Polygon":1581942127678,"./graphic/shape/Polyline":1581942127682,"./graphic/shape/Rect":1581942127674,"./graphic/shape/Ring":1581942127692,"./graphic/shape/Rose":1581942127693,"./graphic/shape/Sector":1581942127694,"./graphic/shape/Star":1581942127696,"./graphic/shape/Trochoid":1581942127697,"./graphic/gradient/LinearGradient":1581942127683,"./graphic/gradient/RadialGradient":1581942127698,"./graphic/Pattern":1581942127647,"./graphic/transform/BoundingRect":1581942127638}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127658, function(require, module, exports) {
+}, function(modId) { var map = {"./core/utils/data_structure_util":1582083283702,"./core/utils/color_util":1582083283721,"./core/utils/path_util":1582083283743,"./core/utils/canvas_util":1582083283729,"./core/utils/matrix":1582083283715,"./core/utils/vector":1582083283705,"./svg/SVGParser":1582083283756,"./graphic/Group":1582083283712,"./graphic/Path":1582083283744,"./graphic/Image":1582083283733,"./graphic/CompoundPath":1582083283770,"./graphic/Text":1582083283757,"./graphic/IncrementalDisplayable":1582083283771,"./graphic/shape/Arc":1582083283772,"./graphic/shape/BezierCurve":1582083283773,"./graphic/shape/Circle":1582083283758,"./graphic/shape/Droplet":1582083283774,"./graphic/shape/Ellipse":1582083283761,"./graphic/shape/Heart":1582083283775,"./graphic/shape/Isogon":1582083283776,"./graphic/shape/Line":1582083283762,"./graphic/shape/Polygon":1582083283763,"./graphic/shape/Polyline":1582083283767,"./graphic/shape/Rect":1582083283759,"./graphic/shape/Ring":1582083283777,"./graphic/shape/Rose":1582083283778,"./graphic/shape/Sector":1582083283779,"./graphic/shape/Star":1582083283781,"./graphic/shape/Trochoid":1582083283782,"./graphic/gradient/LinearGradient":1582083283768,"./graphic/gradient/RadialGradient":1582083283783,"./graphic/Pattern":1582083283732,"./graphic/transform/BoundingRect":1582083283723}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283743, function(require, module, exports) {
 var Path = require("../../graphic/Path");
 
 var PathProxy = require("../../graphic/PathProxy");
@@ -14170,7 +14158,7 @@ function createPathOptions(str, opts) {
 
   opts.buildPath = function (path) {
     if (path.setData) {
-      path.setData(pathProxy.data); // Svg and vml renderer don't have context
+      path.setData(pathProxy.data); // Svg renderer don't have context
 
       var ctx = path.getContext();
 
@@ -14231,7 +14219,7 @@ function mergePath(pathEls, opts) {
   pathBundle.createPathProxy();
 
   pathBundle.buildPath = function (path) {
-    path.appendPath(pathList); // Svg and vml renderer don't have context
+    path.appendPath(pathList); // Svg renderer don't have context
 
     var ctx = path.getContext();
 
@@ -14245,8 +14233,8 @@ function mergePath(pathEls, opts) {
 
 exports.createFromString = createFromString;
 exports.mergePath = mergePath;
-}, function(modId) { var map = {"../../graphic/Path":1581942127659,"../../graphic/PathProxy":1581942127660,"./transform_path":1581942127670,"../../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127659, function(require, module, exports) {
+}, function(modId) { var map = {"../../graphic/Path":1582083283744,"../../graphic/PathProxy":1582083283745,"./transform_path":1582083283755,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283744, function(require, module, exports) {
 var Displayable = require("./Displayable");
 
 var dataUtil = require("../core/utils/data_structure_util");
@@ -14692,8 +14680,8 @@ function (_Displayable) {
 
 var _default = Path;
 module.exports = _default;
-}, function(modId) { var map = {"./Displayable":1581942127649,"../core/utils/data_structure_util":1581942127617,"../core/utils/class_util":1581942127619,"./PathProxy":1581942127660,"../core/contain/path":1581942127663,"./Pattern":1581942127647,"../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127660, function(require, module, exports) {
+}, function(modId) { var map = {"./Displayable":1582083283734,"../core/utils/data_structure_util":1582083283702,"../core/utils/class_util":1582083283704,"./PathProxy":1582083283745,"../core/contain/path":1582083283748,"./Pattern":1582083283732,"../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283745, function(require, module, exports) {
 var curve = require("../core/utils/curve_util");
 
 var vec2 = require("../core/utils/vector");
@@ -15472,8 +15460,8 @@ PathProxy.prototype = {
 PathProxy.CMD = CMD;
 var _default = PathProxy;
 module.exports = _default;
-}, function(modId) { var map = {"../core/utils/curve_util":1581942127661,"../core/utils/vector":1581942127620,"../core/utils/bbox_util":1581942127662,"./transform/BoundingRect":1581942127638,"../config":1581942127642,"../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127661, function(require, module, exports) {
+}, function(modId) { var map = {"../core/utils/curve_util":1582083283746,"../core/utils/vector":1582083283705,"../core/utils/bbox_util":1582083283747,"./transform/BoundingRect":1582083283723,"../config":1582083283727,"../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283746, function(require, module, exports) {
 var _vector = require("./vector");
 
 var v2Create = _vector.create;
@@ -16004,8 +15992,8 @@ exports.quadraticRootAt = quadraticRootAt;
 exports.quadraticExtremum = quadraticExtremum;
 exports.quadraticSubdivide = quadraticSubdivide;
 exports.quadraticProjectPoint = quadraticProjectPoint;
-}, function(modId) { var map = {"./vector":1581942127620,"../../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127662, function(require, module, exports) {
+}, function(modId) { var map = {"./vector":1582083283705,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283747, function(require, module, exports) {
 var vec2 = require("./vector");
 
 var curve = require("./curve_util");
@@ -16230,8 +16218,8 @@ exports.fromLine = fromLine;
 exports.fromCubic = fromCubic;
 exports.fromQuadratic = fromQuadratic;
 exports.fromArc = fromArc;
-}, function(modId) { var map = {"./vector":1581942127620,"./curve_util":1581942127661,"../../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127663, function(require, module, exports) {
+}, function(modId) { var map = {"./vector":1582083283705,"./curve_util":1582083283746,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283748, function(require, module, exports) {
 var PathProxy = require("../../graphic/PathProxy");
 
 var line = require("./line");
@@ -16647,8 +16635,8 @@ function containStroke(pathData, lineWidth, x, y) {
 
 exports.contain = contain;
 exports.containStroke = containStroke;
-}, function(modId) { var map = {"../../graphic/PathProxy":1581942127660,"./line":1581942127664,"./cubic":1581942127665,"./quadratic":1581942127666,"./arc":1581942127667,"./radian_util":1581942127668,"../utils/curve_util":1581942127661,"./winding_line":1581942127669,"../../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127664, function(require, module, exports) {
+}, function(modId) { var map = {"../../graphic/PathProxy":1582083283745,"./line":1582083283749,"./cubic":1582083283750,"./quadratic":1582083283751,"./arc":1582083283752,"./radian_util":1582083283753,"../utils/curve_util":1582083283746,"./winding_line":1582083283754,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283749, function(require, module, exports) {
 /**
  * 线段包含判断
  * @param  {Number}  x0
@@ -16689,7 +16677,7 @@ function containStroke(x0, y0, x1, y1, lineWidth, x, y) {
 
 exports.containStroke = containStroke;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127665, function(require, module, exports) {
+__DEFINE__(1582083283750, function(require, module, exports) {
 var curve = require("../utils/curve_util");
 
 /**
@@ -16723,8 +16711,8 @@ function containStroke(x0, y0, x1, y1, x2, y2, x3, y3, lineWidth, x, y) {
 }
 
 exports.containStroke = containStroke;
-}, function(modId) { var map = {"../utils/curve_util":1581942127661}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127666, function(require, module, exports) {
+}, function(modId) { var map = {"../utils/curve_util":1582083283746}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283751, function(require, module, exports) {
 var _curve_util = require("../utils/curve_util");
 
 var quadraticProjectPoint = _curve_util.quadraticProjectPoint;
@@ -16758,8 +16746,8 @@ function containStroke(x0, y0, x1, y1, x2, y2, lineWidth, x, y) {
 }
 
 exports.containStroke = containStroke;
-}, function(modId) { var map = {"../utils/curve_util":1581942127661}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127667, function(require, module, exports) {
+}, function(modId) { var map = {"../utils/curve_util":1582083283746}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283752, function(require, module, exports) {
 var _radian_util = require("./radian_util");
 
 var normalizeRadian = _radian_util.normalizeRadian;
@@ -16826,8 +16814,8 @@ function containStroke(cx, cy, r, startAngle, endAngle, anticlockwise, lineWidth
 }
 
 exports.containStroke = containStroke;
-}, function(modId) { var map = {"./radian_util":1581942127668,"../../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127668, function(require, module, exports) {
+}, function(modId) { var map = {"./radian_util":1582083283753,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283753, function(require, module, exports) {
 var _constants = require("../../graphic/constants");
 
 var PI2 = _constants.PI2;
@@ -16843,8 +16831,8 @@ function normalizeRadian(angle) {
 }
 
 exports.normalizeRadian = normalizeRadian;
-}, function(modId) { var map = {"../../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127669, function(require, module, exports) {
+}, function(modId) { var map = {"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283754, function(require, module, exports) {
 function windingLine(x0, y0, x1, y1, x, y) {
   if (y > y0 && y > y1 || y < y0 && y < y1) {
     return 0;
@@ -16869,7 +16857,7 @@ function windingLine(x0, y0, x1, y1, x, y) {
 
 module.exports = windingLine;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127670, function(require, module, exports) {
+__DEFINE__(1582083283755, function(require, module, exports) {
 var PathProxy = require("../../graphic/PathProxy");
 
 var _vector = require("./vector");
@@ -16973,8 +16961,8 @@ function _default(path, m) {
 }
 
 module.exports = _default;
-}, function(modId) { var map = {"../../graphic/PathProxy":1581942127660,"./vector":1581942127620,"../../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127671, function(require, module, exports) {
+}, function(modId) { var map = {"../../graphic/PathProxy":1582083283745,"./vector":1582083283705,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283756, function(require, module, exports) {
 var Group = require("../graphic/Group");
 
 var QImage = require("../graphic/Image");
@@ -17688,8 +17676,8 @@ function parseSVG(xml, opt) {
 exports.parseXML = parseXML;
 exports.makeViewBoxTransform = makeViewBoxTransform;
 exports.parseSVG = parseSVG;
-}, function(modId) { var map = {"../graphic/Group":1581942127627,"../graphic/Image":1581942127648,"../graphic/Text":1581942127672,"../graphic/shape/Circle":1581942127673,"../graphic/shape/Rect":1581942127674,"../graphic/shape/Ellipse":1581942127676,"../graphic/shape/Line":1581942127677,"../graphic/Path":1581942127659,"../graphic/shape/Polygon":1581942127678,"../graphic/shape/Polyline":1581942127682,"../graphic/gradient/LinearGradient":1581942127683,"../graphic/Style":1581942127645,"../core/utils/matrix":1581942127630,"../core/utils/path_util":1581942127658,"../core/utils/data_structure_util":1581942127617,"../core/utils/class_util":1581942127619,"../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127672, function(require, module, exports) {
+}, function(modId) { var map = {"../graphic/Group":1582083283712,"../graphic/Image":1582083283733,"../graphic/Text":1582083283757,"../graphic/shape/Circle":1582083283758,"../graphic/shape/Rect":1582083283759,"../graphic/shape/Ellipse":1582083283761,"../graphic/shape/Line":1582083283762,"../graphic/Path":1582083283744,"../graphic/shape/Polygon":1582083283763,"../graphic/shape/Polyline":1582083283767,"../graphic/gradient/LinearGradient":1582083283768,"../graphic/Style":1582083283730,"../core/utils/matrix":1582083283715,"../core/utils/path_util":1582083283743,"../core/utils/data_structure_util":1582083283702,"../core/utils/class_util":1582083283704,"../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283757, function(require, module, exports) {
 var Displayable = require("./Displayable");
 
 var dataUtil = require("../core/utils/data_structure_util");
@@ -17807,8 +17795,8 @@ function (_Displayable) {
 }(Displayable);
 
 module.exports = Text;
-}, function(modId) { var map = {"./Displayable":1581942127649,"../core/utils/data_structure_util":1581942127617,"../core/contain/text":1581942127652,"./utils/text_util":1581942127651,"./constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127673, function(require, module, exports) {
+}, function(modId) { var map = {"./Displayable":1582083283734,"../core/utils/data_structure_util":1582083283702,"../core/contain/text":1582083283737,"./utils/text_util":1582083283736,"./constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283758, function(require, module, exports) {
 var Path = require("../Path");
 
 var dataUtil = require("../../core/utils/data_structure_util");
@@ -17898,8 +17886,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Circle;
-}, function(modId) { var map = {"../Path":1581942127659,"../../core/utils/data_structure_util":1581942127617,"../../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127674, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582083283744,"../../core/utils/data_structure_util":1582083283702,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283759, function(require, module, exports) {
 var Path = require("../Path");
 
 var roundRectHelper = require("../utils/round_rect");
@@ -18014,8 +18002,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Rect;
-}, function(modId) { var map = {"../Path":1581942127659,"../utils/round_rect":1581942127654,"../utils/sub_pixel_optimize":1581942127675,"../../core/utils/data_structure_util":1581942127617}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127675, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582083283744,"../utils/round_rect":1582083283739,"../utils/sub_pixel_optimize":1582083283760,"../../core/utils/data_structure_util":1582083283702}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283760, function(require, module, exports) {
 var _constants = require("../../graphic/constants");
 
 var mathRound = _constants.mathRound;
@@ -18120,8 +18108,8 @@ function subPixelOptimize(position, lineWidth, positiveOrNegative) {
 exports.subPixelOptimizeLine = subPixelOptimizeLine;
 exports.subPixelOptimizeRect = subPixelOptimizeRect;
 exports.subPixelOptimize = subPixelOptimize;
-}, function(modId) { var map = {"../../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127676, function(require, module, exports) {
+}, function(modId) { var map = {"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283761, function(require, module, exports) {
 var Path = require("../Path");
 
 var dataUtil = require("../../core/utils/data_structure_util");
@@ -18210,8 +18198,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Droplet;
-}, function(modId) { var map = {"../Path":1581942127659,"../../core/utils/data_structure_util":1581942127617}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127677, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582083283744,"../../core/utils/data_structure_util":1582083283702}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283762, function(require, module, exports) {
 var Path = require("../Path");
 
 var _sub_pixel_optimize = require("../utils/sub_pixel_optimize");
@@ -18341,8 +18329,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Line;
-}, function(modId) { var map = {"../Path":1581942127659,"../utils/sub_pixel_optimize":1581942127675,"../../core/utils/data_structure_util":1581942127617}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127678, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582083283744,"../utils/sub_pixel_optimize":1582083283760,"../../core/utils/data_structure_util":1582083283702}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283763, function(require, module, exports) {
 var Path = require("../Path");
 
 var polyHelper = require("../utils/poly");
@@ -18417,8 +18405,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Polygon;
-}, function(modId) { var map = {"../Path":1581942127659,"../utils/poly":1581942127679,"../../core/utils/data_structure_util":1581942127617}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127679, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582083283744,"../utils/poly":1582083283764,"../../core/utils/data_structure_util":1582083283702}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283764, function(require, module, exports) {
 var smoothSpline = require("./smooth_spline");
 
 var smoothBezier = require("./smooth_bezier");
@@ -18456,8 +18444,8 @@ function buildPath(ctx, shape, closePath) {
 }
 
 exports.buildPath = buildPath;
-}, function(modId) { var map = {"./smooth_spline":1581942127680,"./smooth_bezier":1581942127681}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127680, function(require, module, exports) {
+}, function(modId) { var map = {"./smooth_spline":1582083283765,"./smooth_bezier":1582083283766}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283765, function(require, module, exports) {
 var _vector = require("../../core/utils/vector");
 
 var v2Distance = _vector.distance;
@@ -18529,8 +18517,8 @@ function _default(points, isLoop) {
 }
 
 module.exports = _default;
-}, function(modId) { var map = {"../../core/utils/vector":1581942127620,"../../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127681, function(require, module, exports) {
+}, function(modId) { var map = {"../../core/utils/vector":1582083283705,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283766, function(require, module, exports) {
 var _vector = require("../../core/utils/vector");
 
 var v2Min = _vector.min;
@@ -18635,8 +18623,8 @@ function _default(points, smooth, isLoop, constraint) {
 }
 
 module.exports = _default;
-}, function(modId) { var map = {"../../core/utils/vector":1581942127620}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127682, function(require, module, exports) {
+}, function(modId) { var map = {"../../core/utils/vector":1582083283705}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283767, function(require, module, exports) {
 var Path = require("../Path");
 
 var polyHelper = require("../utils/poly");
@@ -18715,8 +18703,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Polyline;
-}, function(modId) { var map = {"../Path":1581942127659,"../utils/poly":1581942127679,"../../core/utils/data_structure_util":1581942127617}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127683, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582083283744,"../utils/poly":1582083283764,"../../core/utils/data_structure_util":1582083283702}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283768, function(require, module, exports) {
 var classUtil = require("../../core/utils/class_util");
 
 var Gradient = require("./Gradient");
@@ -18756,8 +18744,8 @@ LinearGradient.prototype = {
 classUtil.inherits(LinearGradient, Gradient);
 var _default = LinearGradient;
 module.exports = _default;
-}, function(modId) { var map = {"../../core/utils/class_util":1581942127619,"./Gradient":1581942127684}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127684, function(require, module, exports) {
+}, function(modId) { var map = {"../../core/utils/class_util":1582083283704,"./Gradient":1582083283769}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283769, function(require, module, exports) {
 /**
  * @class qrenderer.graphic.gradient.Gradient 
  * 渐变
@@ -18784,7 +18772,7 @@ Gradient.prototype = {
 var _default = Gradient;
 module.exports = _default;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127685, function(require, module, exports) {
+__DEFINE__(1582083283770, function(require, module, exports) {
 var Path = require("./Path");
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -18927,8 +18915,8 @@ function (_Path) {
 }(Path);
 
 module.exports = CompoundPath;
-}, function(modId) { var map = {"./Path":1581942127659}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127686, function(require, module, exports) {
+}, function(modId) { var map = {"./Path":1582083283744}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283771, function(require, module, exports) {
 var classUtil = require("../core/utils/class_util");
 
 var Displayble = require("./Displayable");
@@ -19080,8 +19068,8 @@ IncrementalDisplayble.prototype = {
 classUtil.inherits(IncrementalDisplayble, Displayble);
 var _default = IncrementalDisplayble;
 module.exports = _default;
-}, function(modId) { var map = {"../core/utils/class_util":1581942127619,"./Displayable":1581942127649,"./transform/BoundingRect":1581942127638}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127687, function(require, module, exports) {
+}, function(modId) { var map = {"../core/utils/class_util":1582083283704,"./Displayable":1582083283734,"./transform/BoundingRect":1582083283723}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283772, function(require, module, exports) {
 var Path = require("../Path");
 
 var dataUtil = require("../../core/utils/data_structure_util");
@@ -19178,8 +19166,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Arc;
-}, function(modId) { var map = {"../Path":1581942127659,"../../core/utils/data_structure_util":1581942127617,"../../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127688, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582083283744,"../../core/utils/data_structure_util":1582083283702,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283773, function(require, module, exports) {
 var Path = require("../Path");
 
 var vec2 = require("../../core/utils/vector");
@@ -19339,8 +19327,8 @@ function (_Path) {
 }(Path);
 
 module.exports = BezierCurve;
-}, function(modId) { var map = {"../Path":1581942127659,"../../core/utils/vector":1581942127620,"../../core/utils/curve_util":1581942127661,"../../core/utils/data_structure_util":1581942127617}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127689, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582083283744,"../../core/utils/vector":1582083283705,"../../core/utils/curve_util":1582083283746,"../../core/utils/data_structure_util":1582083283702}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283774, function(require, module, exports) {
 var Path = require("../Path");
 
 var dataUtil = require("../../core/utils/data_structure_util");
@@ -19421,8 +19409,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Droplet;
-}, function(modId) { var map = {"../Path":1581942127659,"../../core/utils/data_structure_util":1581942127617}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127690, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582083283744,"../../core/utils/data_structure_util":1582083283702}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283775, function(require, module, exports) {
 var Path = require("../Path");
 
 var dataUtil = require("../../core/utils/data_structure_util");
@@ -19502,8 +19490,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Heart;
-}, function(modId) { var map = {"../Path":1581942127659,"../../core/utils/data_structure_util":1581942127617}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127691, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582083283744,"../../core/utils/data_structure_util":1582083283702}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283776, function(require, module, exports) {
 var Path = require("../Path");
 
 var dataUtil = require("../../core/utils/data_structure_util");
@@ -19602,8 +19590,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Isogon;
-}, function(modId) { var map = {"../Path":1581942127659,"../../core/utils/data_structure_util":1581942127617,"../../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127692, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582083283744,"../../core/utils/data_structure_util":1582083283702,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283777, function(require, module, exports) {
 var Path = require("../Path");
 
 var dataUtil = require("../../core/utils/data_structure_util");
@@ -19686,8 +19674,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Ring;
-}, function(modId) { var map = {"../Path":1581942127659,"../../core/utils/data_structure_util":1581942127617,"../../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127693, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582083283744,"../../core/utils/data_structure_util":1582083283702,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283778, function(require, module, exports) {
 var Path = require("../Path");
 
 var dataUtil = require("../../core/utils/data_structure_util");
@@ -19790,8 +19778,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Rose;
-}, function(modId) { var map = {"../Path":1581942127659,"../../core/utils/data_structure_util":1581942127617,"../../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127694, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582083283744,"../../core/utils/data_structure_util":1582083283702,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283779, function(require, module, exports) {
 var Path = require("../Path");
 
 var fixClipWithShadow = require("../utils/fix_clip_with_shadow");
@@ -19899,8 +19887,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Sector;
-}, function(modId) { var map = {"../Path":1581942127659,"../utils/fix_clip_with_shadow":1581942127695,"../../core/utils/data_structure_util":1581942127617,"../../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127695, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582083283744,"../utils/fix_clip_with_shadow":1582083283780,"../../core/utils/data_structure_util":1582083283702,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283780, function(require, module, exports) {
 var env = require("../../core/env");
 
 // Fix weird bug in some version of IE11 (like 11.0.9600.178**),
@@ -19957,8 +19945,8 @@ function _default(orignalBrush) {
 }
 
 module.exports = _default;
-}, function(modId) { var map = {"../../core/env":1581942127615}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127696, function(require, module, exports) {
+}, function(modId) { var map = {"../../core/env":1582083283700}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283781, function(require, module, exports) {
 var Path = require("../Path");
 
 var dataUtil = require("../../core/utils/data_structure_util");
@@ -20072,8 +20060,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Star;
-}, function(modId) { var map = {"../Path":1581942127659,"../../core/utils/data_structure_util":1581942127617,"../../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127697, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582083283744,"../../core/utils/data_structure_util":1582083283702,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283782, function(require, module, exports) {
 var Path = require("../Path");
 
 var dataUtil = require("../../core/utils/data_structure_util");
@@ -20190,8 +20178,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Trochold;
-}, function(modId) { var map = {"../Path":1581942127659,"../../core/utils/data_structure_util":1581942127617,"../../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127698, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582083283744,"../../core/utils/data_structure_util":1582083283702,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283783, function(require, module, exports) {
 var classUtil = require("../../core/utils/class_util");
 
 var Gradient = require("./Gradient");
@@ -20229,8 +20217,8 @@ RadialGradient.prototype = {
 classUtil.inherits(RadialGradient, Gradient);
 var _default = RadialGradient;
 module.exports = _default;
-}, function(modId) { var map = {"../../core/utils/class_util":1581942127619,"./Gradient":1581942127684}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127699, function(require, module, exports) {
+}, function(modId) { var map = {"../../core/utils/class_util":1582083283704,"./Gradient":1582083283769}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283784, function(require, module, exports) {
 require("./graphic");
 
 var _quarkRenderer = require("../quark-renderer");
@@ -20240,8 +20228,8 @@ var registerPainter = _quarkRenderer.registerPainter;
 var SVGPainter = require("./SVGPainter");
 
 registerPainter('svg', SVGPainter);
-}, function(modId) { var map = {"./graphic":1581942127700,"../quark-renderer":1581942127613,"./SVGPainter":1581942127702}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127700, function(require, module, exports) {
+}, function(modId) { var map = {"./graphic":1582083283785,"../quark-renderer":1582083283698,"./SVGPainter":1582083283787}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283785, function(require, module, exports) {
 var _core = require("./core");
 
 var createElement = _core.createElement;
@@ -20776,8 +20764,8 @@ svgText.brush = function (el) {
 exports.path = svgPath;
 exports.image = svgImage;
 exports.text = svgText;
-}, function(modId) { var map = {"./core":1581942127701,"../graphic/PathProxy":1581942127660,"../graphic/transform/BoundingRect":1581942127638,"../core/utils/matrix":1581942127630,"../core/contain/text":1581942127652,"../graphic/utils/text_util":1581942127651,"../graphic/Text":1581942127672,"../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127701, function(require, module, exports) {
+}, function(modId) { var map = {"./core":1582083283786,"../graphic/PathProxy":1582083283745,"../graphic/transform/BoundingRect":1582083283723,"../core/utils/matrix":1582083283715,"../core/contain/text":1582083283737,"../graphic/utils/text_util":1582083283736,"../graphic/Text":1582083283757,"../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283786, function(require, module, exports) {
 var svgURI = 'http://www.w3.org/2000/svg';
 
 function createElement(name) {
@@ -20786,7 +20774,7 @@ function createElement(name) {
 
 exports.createElement = createElement;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127702, function(require, module, exports) {
+__DEFINE__(1582083283787, function(require, module, exports) {
 var _core = require("./core");
 
 var createElement = _core.createElement;
@@ -21211,8 +21199,8 @@ function createMethodNotSupport(method) {
 });
 var _default = SVGPainter;
 module.exports = _default;
-}, function(modId) { var map = {"./core":1581942127701,"../core/utils/data_structure_util":1581942127617,"../graphic/Path":1581942127659,"../graphic/Image":1581942127648,"../graphic/Text":1581942127672,"../core/utils/array_diff2":1581942127703,"./helper/GradientManager":1581942127704,"./helper/ClippathManager":1581942127706,"./helper/ShadowManager":1581942127707,"./graphic":1581942127700}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127703, function(require, module, exports) {
+}, function(modId) { var map = {"./core":1582083283786,"../core/utils/data_structure_util":1582083283702,"../graphic/Path":1582083283744,"../graphic/Image":1582083283733,"../graphic/Text":1582083283757,"../core/utils/array_diff2":1582083283788,"./helper/GradientManager":1582083283789,"./helper/ClippathManager":1582083283791,"./helper/ShadowManager":1582083283792,"./graphic":1582083283785}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283788, function(require, module, exports) {
 // Myers' Diff Algorithm
 // Modified from https://github.com/kpdecker/jsdiff/blob/master/src/diff/base.js
 function Diff() {}
@@ -21412,7 +21400,7 @@ function _default(oldArr, newArr, callback) {
 
 module.exports = _default;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127704, function(require, module, exports) {
+__DEFINE__(1582083283789, function(require, module, exports) {
 var Definable = require("./Definable");
 
 var dataUtil = require("../../core/utils/data_structure_util");
@@ -21665,8 +21653,8 @@ function (_Definable) {
 
 var _default = GradientManager;
 module.exports = _default;
-}, function(modId) { var map = {"./Definable":1581942127705,"../../core/utils/data_structure_util":1581942127617,"../../core/utils/class_util":1581942127619,"../../core/utils/color_util":1581942127636}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127705, function(require, module, exports) {
+}, function(modId) { var map = {"./Definable":1582083283790,"../../core/utils/data_structure_util":1582083283702,"../../core/utils/class_util":1582083283704,"../../core/utils/color_util":1582083283721}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283790, function(require, module, exports) {
 var _core = require("../core");
 
 var createElement = _core.createElement;
@@ -21984,8 +21972,8 @@ function () {
 
 var _default = Definable;
 module.exports = _default;
-}, function(modId) { var map = {"../core":1581942127701,"../../core/utils/data_structure_util":1581942127617,"../../graphic/Path":1581942127659,"../../graphic/Image":1581942127648,"../../graphic/Text":1581942127672,"../graphic":1581942127700}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127706, function(require, module, exports) {
+}, function(modId) { var map = {"../core":1582083283786,"../../core/utils/data_structure_util":1582083283702,"../../graphic/Path":1582083283744,"../../graphic/Image":1582083283733,"../../graphic/Text":1582083283757,"../graphic":1582083283785}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283791, function(require, module, exports) {
 var Definable = require("./Definable");
 
 var dataUtil = require("../../core/utils/data_structure_util");
@@ -22180,8 +22168,8 @@ function (_Definable) {
 
 var _default = ClippathManager;
 module.exports = _default;
-}, function(modId) { var map = {"./Definable":1581942127705,"../../core/utils/data_structure_util":1581942127617,"../../core/utils/class_util":1581942127619,"../../core/utils/matrix":1581942127630}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127707, function(require, module, exports) {
+}, function(modId) { var map = {"./Definable":1582083283790,"../../core/utils/data_structure_util":1582083283702,"../../core/utils/class_util":1582083283704,"../../core/utils/matrix":1582083283715}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582083283792, function(require, module, exports) {
 var Definable = require("./Definable");
 
 var classUtil = require("../../core/utils/class_util");
@@ -22408,1326 +22396,7 @@ function (_Definable) {
 
 var _default = ShadowManager;
 module.exports = _default;
-}, function(modId) { var map = {"./Definable":1581942127705,"../../core/utils/class_util":1581942127619}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127708, function(require, module, exports) {
-require("./graphic");
-
-var _quarkRenderer = require("../quark-renderer");
-
-var registerPainter = _quarkRenderer.registerPainter;
-
-var VMLPainter = require("./VMLPainter");
-
-registerPainter('vml', VMLPainter);
-}, function(modId) { var map = {"./graphic":1581942127709,"../quark-renderer":1581942127613,"./VMLPainter":1581942127711}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127709, function(require, module, exports) {
-var env = require("../core/env");
-
-var _vector = require("../core/utils/vector");
-
-var applyTransform = _vector.applyTransform;
-
-var BoundingRect = require("../graphic/transform/BoundingRect");
-
-var colorTool = require("../core/utils/color_util");
-
-var textContain = require("../core/contain/text");
-
-var textUtil = require("../graphic/utils/text_util");
-
-var RectText = require("../graphic/RectText");
-
-var Displayable = require("../graphic/Displayable");
-
-var QImage = require("../graphic/Image");
-
-var Text = require("../graphic/Text");
-
-var Path = require("../graphic/Path");
-
-var PathProxy = require("../graphic/PathProxy");
-
-var Gradient = require("../graphic/gradient/Gradient");
-
-var vmlCore = require("./core");
-
-var _constants = require("../graphic/constants");
-
-var mathRound = _constants.mathRound;
-var mathSqrt = _constants.mathSqrt;
-var mathAbs = _constants.mathAbs;
-var mathCos = _constants.mathCos;
-var mathSin = _constants.mathSin;
-var mathMax = _constants.mathMax;
-var mathAtan2 = _constants.mathAtan2;
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-// http://www.w3.org/TR/NOTE-VML
-// TODO:Use proxy like svg instead of overwrite brush methods
-var CMD = PathProxy.CMD;
-
-if (!env.canvasSupported) {
-  var comma = ',';
-  var imageTransformPrefix = 'progid:DXImageTransform.Microsoft';
-  var Z = 21600;
-  var Z2 = Z / 2;
-  var ZLEVEL_BASE = 100000;
-  var Z_BASE = 1000;
-
-  var initRootElStyle = function initRootElStyle(el) {
-    el.style.cssText = 'position:absolute;left:0;top:0;width:1px;height:1px;';
-    el.coordsize = Z + ',' + Z;
-    el.coordorigin = '0,0';
-  };
-
-  var encodeHtmlAttribute = function encodeHtmlAttribute(s) {
-    return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;');
-  };
-
-  var rgb2Str = function rgb2Str(r, g, b) {
-    return 'rgb(' + [r, g, b].join(',') + ')';
-  };
-
-  var append = function append(parent, child) {
-    if (child && parent && child.parentNode !== parent) {
-      parent.appendChild(child);
-    }
-  };
-
-  var remove = function remove(parent, child) {
-    if (child && parent && child.parentNode === parent) {
-      parent.removeChild(child);
-    }
-  };
-
-  var getZIndex = function getZIndex(zlevel, z, z2) {
-    // z 的取值范围为 [0, 1000]
-    return (parseFloat(zlevel) || 0) * ZLEVEL_BASE + (parseFloat(z) || 0) * Z_BASE + z2;
-  };
-
-  var parsePercent = textUtil.parsePercent; //--------------PATH----------------------
-
-  var setColorAndOpacity = function setColorAndOpacity(el, color, opacity) {
-    var colorArr = colorTool.parse(color);
-    opacity = +opacity;
-
-    if (isNaN(opacity)) {
-      opacity = 1;
-    }
-
-    if (colorArr) {
-      el.color = rgb2Str(colorArr[0], colorArr[1], colorArr[2]);
-      el.opacity = opacity * colorArr[3];
-    }
-  };
-
-  var getColorAndAlpha = function getColorAndAlpha(color) {
-    var colorArr = colorTool.parse(color);
-    return [rgb2Str(colorArr[0], colorArr[1], colorArr[2]), colorArr[3]];
-  };
-
-  var updateFillNode = function updateFillNode(el, style, qrEl) {
-    // TODO pattern
-    var fill = style.fill;
-
-    if (fill != null) {
-      // Modified from excanvas
-      if (fill instanceof Gradient) {
-        var gradientType;
-        var angle = 0;
-        var focus = [0, 0]; // additional offset
-
-        var shift = 0; // scale factor for offset
-
-        var expansion = 1;
-        var rect = qrEl.getBoundingRect();
-        var rectWidth = rect.width;
-        var rectHeight = rect.height;
-
-        if (fill.type === 'linear') {
-          gradientType = 'gradient';
-          var transform = qrEl.transform;
-          var p0 = [fill.x * rectWidth, fill.y * rectHeight];
-          var p1 = [fill.x2 * rectWidth, fill.y2 * rectHeight];
-
-          if (transform) {
-            applyTransform(p0, p0, transform);
-            applyTransform(p1, p1, transform);
-          }
-
-          var dx = p1[0] - p0[0];
-          var dy = p1[1] - p0[1];
-          angle = mathAtan2(dx, dy) * 180 / PI; // The angle should be a non-negative number.
-
-          if (angle < 0) {
-            angle += 360;
-          } // Very small angles produce an unexpected result because they are
-          // converted to a scientific notation string.
-
-
-          if (angle < 1e-6) {
-            angle = 0;
-          }
-        } else {
-          gradientType = 'gradientradial';
-          var _p = [fill.x * rectWidth, fill.y * rectHeight];
-          var _transform = qrEl.transform;
-          var scale = qrEl.scale;
-          var width = rectWidth;
-          var height = rectHeight;
-          focus = [// Percent in bounding rect
-          (_p[0] - rect.x) / width, (_p[1] - rect.y) / height];
-
-          if (_transform) {
-            applyTransform(_p, _p, _transform);
-          }
-
-          width /= scale[0] * Z;
-          height /= scale[1] * Z;
-          var dimension = mathMax(width, height);
-          shift = 2 * 0 / dimension;
-          expansion = 2 * fill.r / dimension - shift;
-        } // We need to sort the color stops in ascending order by offset,
-        // otherwise IE won't interpret it correctly.
-
-
-        var stops = fill.colorStops.slice();
-        stops.sort(function (cs1, cs2) {
-          return cs1.offset - cs2.offset;
-        });
-        var length = stops.length; // Color and alpha list of first and last stop
-
-        var colorAndAlphaList = [];
-        var colors = [];
-
-        for (var i = 0; i < length; i++) {
-          var stop = stops[i];
-          var colorAndAlpha = getColorAndAlpha(stop.color);
-          colors.push(stop.offset * expansion + shift + ' ' + colorAndAlpha[0]);
-
-          if (i === 0 || i === length - 1) {
-            colorAndAlphaList.push(colorAndAlpha);
-          }
-        }
-
-        if (length >= 2) {
-          var color1 = colorAndAlphaList[0][0];
-          var color2 = colorAndAlphaList[1][0];
-          var opacity1 = colorAndAlphaList[0][1] * style.opacity;
-          var opacity2 = colorAndAlphaList[1][1] * style.opacity;
-          el.type = gradientType;
-          el.method = 'none';
-          el.focus = '100%';
-          el.angle = angle;
-          el.color = color1;
-          el.color2 = color2;
-          el.colors = colors.join(','); // When colors attribute is used, the meanings of opacity and o:opacity2
-          // are reversed.
-
-          el.opacity = opacity2; // FIXME g_o_:opacity ?
-
-          el.opacity2 = opacity1;
-        }
-
-        if (gradientType === 'radial') {
-          el.focusposition = focus.join(',');
-        }
-      } else {
-        // FIXME Change from Gradient fill to color fill
-        setColorAndOpacity(el, fill, style.opacity);
-      }
-    }
-  };
-
-  var updateStrokeNode = function updateStrokeNode(el, style) {
-    // if (style.lineJoin != null) {
-    //     el.joinstyle = style.lineJoin;
-    // }
-    // if (style.miterLimit != null) {
-    //     el.miterlimit = style.miterLimit * Z;
-    // }
-    // if (style.lineCap != null) {
-    //     el.endcap = style.lineCap;
-    // }
-    if (style.lineDash) {
-      el.dashstyle = style.lineDash.join(' ');
-    }
-
-    if (style.stroke != null && !(style.stroke instanceof Gradient)) {
-      setColorAndOpacity(el, style.stroke, style.opacity);
-    }
-  };
-
-  var updateFillAndStroke = function updateFillAndStroke(vmlEl, type, style, qrEl) {
-    var isFill = type === 'fill';
-    var el = vmlEl.getElementsByTagName(type)[0]; // Stroke must have lineWidth
-
-    if (style[type] != null && style[type] !== 'none' && (isFill || !isFill && style.lineWidth)) {
-      vmlEl[isFill ? 'filled' : 'stroked'] = 'true'; // FIXME Remove before updating, or set `colors` will throw error
-
-      if (style[type] instanceof Gradient) {
-        remove(vmlEl, el);
-      }
-
-      if (!el) {
-        el = vmlCore.createNode(type);
-      }
-
-      isFill ? updateFillNode(el, style, qrEl) : updateStrokeNode(el, style);
-      append(vmlEl, el);
-    } else {
-      vmlEl[isFill ? 'filled' : 'stroked'] = 'false';
-      remove(vmlEl, el);
-    }
-  };
-
-  var points = [[], [], []];
-
-  var pathDataToString = function pathDataToString(path, m) {
-    var M = CMD.M;
-    var C = CMD.C;
-    var L = CMD.L;
-    var A = CMD.A;
-    var Q = CMD.Q;
-    var str = [];
-    var nPoint;
-    var cmdStr;
-    var cmd;
-    var i;
-    var xi;
-    var yi;
-    var data = path.data;
-    var dataLength = path.len();
-    var x;
-    var y;
-    var x0;
-    var y0;
-    var x1;
-    var y1;
-    var x2;
-    var y2;
-    var x3;
-    var y3;
-    var cx;
-    var cy;
-    var sx;
-    var sy;
-    var rx;
-    var ry;
-
-    for (i = 0; i < dataLength;) {
-      cmd = data[i++];
-      cmdStr = '';
-      nPoint = 0;
-
-      switch (cmd) {
-        case M:
-          cmdStr = ' m ';
-          nPoint = 1;
-          xi = data[i++];
-          yi = data[i++];
-          points[0][0] = xi;
-          points[0][1] = yi;
-          break;
-
-        case L:
-          cmdStr = ' l ';
-          nPoint = 1;
-          xi = data[i++];
-          yi = data[i++];
-          points[0][0] = xi;
-          points[0][1] = yi;
-          break;
-
-        case Q:
-        case C:
-          cmdStr = ' c ';
-          nPoint = 3;
-          x1 = data[i++];
-          y1 = data[i++];
-          x2 = data[i++];
-          y2 = data[i++];
-
-          if (cmd === Q) {
-            // Convert quadratic to cubic using degree elevation
-            x3 = x2;
-            y3 = y2;
-            x2 = (x2 + 2 * x1) / 3;
-            y2 = (y2 + 2 * y1) / 3;
-            x1 = (xi + 2 * x1) / 3;
-            y1 = (yi + 2 * y1) / 3;
-          } else {
-            x3 = data[i++];
-            y3 = data[i++];
-          }
-
-          points[0][0] = x1;
-          points[0][1] = y1;
-          points[1][0] = x2;
-          points[1][1] = y2;
-          points[2][0] = x3;
-          points[2][1] = y3;
-          xi = x3;
-          yi = y3;
-          break;
-
-        case A:
-          x = 0;
-          y = 0;
-          sx = 1;
-          sy = 1;
-          var angle = 0;
-
-          if (m) {
-            // Extract SRT from matrix
-            x = m[4];
-            y = m[5];
-            sx = mathSqrt(m[0] * m[0] + m[1] * m[1]);
-            sy = mathSqrt(m[2] * m[2] + m[3] * m[3]);
-            angle = mathAtan2(-m[1] / sy, m[0] / sx);
-          }
-
-          cx = data[i++];
-          cy = data[i++];
-          rx = data[i++];
-          ry = data[i++];
-          var startAngle = data[i++] + angle;
-          var endAngle = data[i++] + startAngle + angle; // FIXME
-          // let psi = data[i++];
-
-          i++;
-          var clockwise = data[i++];
-          x0 = cx + mathCos(startAngle) * rx;
-          y0 = cy + mathSin(startAngle) * ry;
-          x1 = cx + mathCos(endAngle) * rx;
-          y1 = cy + mathSin(endAngle) * ry;
-          var type = clockwise ? ' wa ' : ' at ';
-
-          if (mathAbs(x0 - x1) < 1e-4) {
-            // IE won't render arches drawn counter clockwise if x0 == x1.
-            if (mathAbs(endAngle - startAngle) > 1e-2) {
-              // Offset x0 by 1/80 of a pixel. Use something
-              // that can be represented in binary
-              if (clockwise) {
-                x0 += 270 / Z;
-              }
-            } else {
-              // Avoid case draw full circle
-              if (mathAbs(y0 - cy) < 1e-4) {
-                if (clockwise && x0 < cx || !clockwise && x0 > cx) {
-                  y1 -= 270 / Z;
-                } else {
-                  y1 += 270 / Z;
-                }
-              } else if (clockwise && y0 < cy || !clockwise && y0 > cy) {
-                x1 += 270 / Z;
-              } else {
-                x1 -= 270 / Z;
-              }
-            }
-          }
-
-          str.push(type, mathRound(((cx - rx) * sx + x) * Z - Z2), comma, mathRound(((cy - ry) * sy + y) * Z - Z2), comma, mathRound(((cx + rx) * sx + x) * Z - Z2), comma, mathRound(((cy + ry) * sy + y) * Z - Z2), comma, mathRound((x0 * sx + x) * Z - Z2), comma, mathRound((y0 * sy + y) * Z - Z2), comma, mathRound((x1 * sx + x) * Z - Z2), comma, mathRound((y1 * sy + y) * Z - Z2));
-          xi = x1;
-          yi = y1;
-          break;
-
-        case CMD.R:
-          var p0 = points[0];
-          var p1 = points[1]; // x0, y0
-
-          p0[0] = data[i++];
-          p0[1] = data[i++]; // x1, y1
-
-          p1[0] = p0[0] + data[i++];
-          p1[1] = p0[1] + data[i++];
-
-          if (m) {
-            applyTransform(p0, p0, m);
-            applyTransform(p1, p1, m);
-          }
-
-          p0[0] = mathRound(p0[0] * Z - Z2);
-          p1[0] = mathRound(p1[0] * Z - Z2);
-          p0[1] = mathRound(p0[1] * Z - Z2);
-          p1[1] = mathRound(p1[1] * Z - Z2);
-          str.push( // x0, y0
-          ' m ', p0[0], comma, p0[1], // x1, y0
-          ' l ', p1[0], comma, p0[1], // x1, y1
-          ' l ', p1[0], comma, p1[1], // x0, y1
-          ' l ', p0[0], comma, p1[1]);
-          break;
-
-        case CMD.Z:
-          // FIXME Update xi, yi
-          str.push(' x ');
-      }
-
-      if (nPoint > 0) {
-        str.push(cmdStr);
-
-        for (var k = 0; k < nPoint; k++) {
-          var p = points[k];
-          m && applyTransform(p, p, m); // 不 mathRound 会非常慢
-
-          str.push(mathRound(p[0] * Z - Z2), comma, mathRound(p[1] * Z - Z2), k < nPoint - 1 ? comma : '');
-        }
-      }
-    }
-
-    return str.join('');
-  };
-  /**
-   * @class qrenderer.vml.Path
-   * 
-   * Append brushVML method to standard shape classes inside graphic package, VMLPainter will
-   * use this method instead of standard brush() method.
-   * 
-   * 在标准的 shape 类上扩展一个 brushVML 方法，在 VMLPainter 中会调用此方法，而不是标准的 brush 方法。
-   * 
-   * @docauthor 大漠穷秋 damoqiongqiu@126.com
-   */
-  // Rewrite the original path method
-
-
-  Path.prototype.brushVML = function (vmlRoot) {
-    var style = this.style;
-    var vmlEl = this._vmlEl;
-
-    if (!vmlEl) {
-      vmlEl = vmlCore.createNode('shape');
-      initRootElStyle(vmlEl);
-      this._vmlEl = vmlEl;
-    }
-
-    updateFillAndStroke(vmlEl, 'fill', style, this);
-    updateFillAndStroke(vmlEl, 'stroke', style, this);
-    var m = this.transform;
-    var needTransform = m != null;
-    var strokeEl = vmlEl.getElementsByTagName('stroke')[0];
-
-    if (strokeEl) {
-      var lineWidth = style.lineWidth; // Get the line scale.
-      // Determinant of this.m_ means how much the area is enlarged by the
-      // transformation. So its square root can be used as a scale factor
-      // for width.
-
-      if (needTransform && !style.strokeNoScale) {
-        var det = m[0] * m[3] - m[1] * m[2];
-        lineWidth *= mathSqrt(mathAbs(det));
-      }
-
-      strokeEl.weight = lineWidth + 'px';
-    }
-
-    var path = this.path || (this.path = new PathProxy());
-
-    if (this.__dirtyPath) {
-      path.beginPath();
-      path.subPixelOptimize = false;
-      this.buildPath(path, this.shape);
-      path.toStatic();
-      this.__dirtyPath = false;
-    }
-
-    vmlEl.path = pathDataToString(path, this.transform);
-    vmlEl.style.zIndex = getZIndex(this.zlevel, this.z, this.z2); // Append to root
-
-    append(vmlRoot, vmlEl); // Text
-
-    if (style.text != null) {
-      this.drawRectText(vmlRoot, this.getBoundingRect());
-    } else {
-      this.removeRectText(vmlRoot);
-    }
-  };
-
-  Path.prototype.onRemove = function (vmlRoot) {
-    remove(vmlRoot, this._vmlEl);
-    this.removeRectText(vmlRoot);
-  };
-
-  Path.prototype.onAdd = function (vmlRoot) {
-    append(vmlRoot, this._vmlEl);
-    this.appendRectText(vmlRoot);
-  }; //--------------IMAGE----------------------
-
-
-  var isImage = function isImage(img) {
-    // FIXME img instanceof Image 如果 img 是一个字符串的时候，IE8 下会报错
-    return _typeof(img) === 'object' && img.tagName && img.tagName.toUpperCase() === 'IMG'; // return img instanceof Image;
-  };
-  /**
-   * @class qrenderer.vml.QImage
-   * 
-   * @docauthor 大漠穷秋 damoqiongqiu@126.com
-   */
-  // Rewrite the original path method
-
-
-  QImage.prototype.brushVML = function (vmlRoot) {
-    var style = this.style;
-    var image = style.image; // Image original width, height
-
-    var ow;
-    var oh;
-
-    if (isImage(image)) {
-      var src = image.src;
-
-      if (src === this._imageSrc) {
-        ow = this._imageWidth;
-        oh = this._imageHeight;
-      } else {
-        var imageRuntimeStyle = image.runtimeStyle;
-        var oldRuntimeWidth = imageRuntimeStyle.width;
-        var oldRuntimeHeight = imageRuntimeStyle.height;
-        imageRuntimeStyle.width = 'auto';
-        imageRuntimeStyle.height = 'auto'; // get the original size
-
-        ow = image.width;
-        oh = image.height; // and remove overides
-
-        imageRuntimeStyle.width = oldRuntimeWidth;
-        imageRuntimeStyle.height = oldRuntimeHeight; // Caching image original width, height and src
-
-        this._imageSrc = src;
-        this._imageWidth = ow;
-        this._imageHeight = oh;
-      }
-
-      image = src;
-    } else {
-      if (image === this._imageSrc) {
-        ow = this._imageWidth;
-        oh = this._imageHeight;
-      }
-    }
-
-    if (!image) {
-      return;
-    }
-
-    var x = style.x || 0;
-    var y = style.y || 0;
-    var dw = style.width;
-    var dh = style.height;
-    var sw = style.sWidth;
-    var sh = style.sHeight;
-    var sx = style.sx || 0;
-    var sy = style.sy || 0;
-    var hasCrop = sw && sh;
-    var vmlEl = this._vmlEl;
-
-    if (!vmlEl) {
-      // FIXME 使用 group 在 left, top 都不是 0 的时候就无法显示了。
-      // vmlEl = vmlCore.createNode('group');
-      vmlEl = vmlCore.doc.createElement('div');
-      initRootElStyle(vmlEl);
-      this._vmlEl = vmlEl;
-    }
-
-    var vmlElStyle = vmlEl.style;
-    var hasRotation = false;
-    var m;
-    var scaleX = 1;
-    var scaleY = 1;
-
-    if (this.transform) {
-      m = this.transform;
-      scaleX = mathSqrt(m[0] * m[0] + m[1] * m[1]);
-      scaleY = mathSqrt(m[2] * m[2] + m[3] * m[3]);
-      hasRotation = m[1] || m[2];
-    }
-
-    if (hasRotation) {
-      // If filters are necessary (rotation exists), create them
-      // filters are bog-slow, so only create them if abbsolutely necessary
-      // The following check doesn't account for skews (which don't exist
-      // in the canvas spec (yet) anyway.
-      // From excanvas
-      var p0 = [x, y];
-      var p1 = [x + dw, y];
-      var p2 = [x, y + dh];
-      var p3 = [x + dw, y + dh];
-      applyTransform(p0, p0, m);
-      applyTransform(p1, p1, m);
-      applyTransform(p2, p2, m);
-      applyTransform(p3, p3, m);
-      var maxX = mathMax(p0[0], p1[0], p2[0], p3[0]);
-      var maxY = mathMax(p0[1], p1[1], p2[1], p3[1]);
-      var transformFilter = [];
-      transformFilter.push('M11=', m[0] / scaleX, comma, 'M12=', m[2] / scaleY, comma, 'M21=', m[1] / scaleX, comma, 'M22=', m[3] / scaleY, comma, 'Dx=', mathRound(x * scaleX + m[4]), comma, 'Dy=', mathRound(y * scaleY + m[5]));
-      vmlElStyle.padding = '0 ' + mathRound(maxX) + 'px ' + mathRound(maxY) + 'px 0'; // FIXME DXImageTransform 在 IE11 的兼容模式下不起作用
-
-      vmlElStyle.filter = imageTransformPrefix + '.Matrix(' + transformFilter.join('') + ', SizingMethod=clip)';
-    } else {
-      if (m) {
-        x = x * scaleX + m[4];
-        y = y * scaleY + m[5];
-      }
-
-      vmlElStyle.filter = '';
-      vmlElStyle.left = mathRound(x) + 'px';
-      vmlElStyle.top = mathRound(y) + 'px';
-    }
-
-    var imageEl = this._imageEl;
-    var cropEl = this._cropEl;
-
-    if (!imageEl) {
-      imageEl = vmlCore.doc.createElement('div');
-      this._imageEl = imageEl;
-    }
-
-    var imageELStyle = imageEl.style;
-
-    if (hasCrop) {
-      // Needs know image original width and height
-      if (!(ow && oh)) {
-        var tmpImage = new Image();
-        var self = this;
-
-        tmpImage.onload = function () {
-          tmpImage.onload = null;
-          ow = tmpImage.width;
-          oh = tmpImage.height; // Adjust image width and height to fit the ratio destinationSize / sourceSize
-
-          imageELStyle.width = mathRound(scaleX * ow * dw / sw) + 'px';
-          imageELStyle.height = mathRound(scaleY * oh * dh / sh) + 'px'; // Caching image original width, height and src
-
-          self._imageWidth = ow;
-          self._imageHeight = oh;
-          self._imageSrc = image;
-        };
-
-        tmpImage.src = image;
-      } else {
-        imageELStyle.width = mathRound(scaleX * ow * dw / sw) + 'px';
-        imageELStyle.height = mathRound(scaleY * oh * dh / sh) + 'px';
-      }
-
-      if (!cropEl) {
-        cropEl = vmlCore.doc.createElement('div');
-        cropEl.style.overflow = 'hidden';
-        this._cropEl = cropEl;
-      }
-
-      var cropElStyle = cropEl.style;
-      cropElStyle.width = mathRound((dw + sx * dw / sw) * scaleX);
-      cropElStyle.height = mathRound((dh + sy * dh / sh) * scaleY);
-      cropElStyle.filter = imageTransformPrefix + '.Matrix(Dx=' + -sx * dw / sw * scaleX + ',Dy=' + -sy * dh / sh * scaleY + ')';
-
-      if (!cropEl.parentNode) {
-        vmlEl.appendChild(cropEl);
-      }
-
-      if (imageEl.parentNode !== cropEl) {
-        cropEl.appendChild(imageEl);
-      }
-    } else {
-      imageELStyle.width = mathRound(scaleX * dw) + 'px';
-      imageELStyle.height = mathRound(scaleY * dh) + 'px';
-      vmlEl.appendChild(imageEl);
-
-      if (cropEl && cropEl.parentNode) {
-        vmlEl.removeChild(cropEl);
-        this._cropEl = null;
-      }
-    }
-
-    var filterStr = '';
-    var alpha = style.opacity;
-
-    if (alpha < 1) {
-      filterStr += '.Alpha(opacity=' + mathRound(alpha * 100) + ') ';
-    }
-
-    filterStr += imageTransformPrefix + '.AlphaImageLoader(src=' + image + ', SizingMethod=scale)';
-    imageELStyle.filter = filterStr;
-    vmlEl.style.zIndex = getZIndex(this.zlevel, this.z, this.z2); // Append to root
-
-    append(vmlRoot, vmlEl); // Text
-
-    if (style.text != null) {
-      this.drawRectText(vmlRoot, this.getBoundingRect());
-    }
-  };
-
-  QImage.prototype.onRemove = function (vmlRoot) {
-    remove(vmlRoot, this._vmlEl);
-    this._vmlEl = null;
-    this._cropEl = null;
-    this._imageEl = null;
-    this.removeRectText(vmlRoot);
-  };
-
-  QImage.prototype.onAdd = function (vmlRoot) {
-    append(vmlRoot, this._vmlEl);
-    this.appendRectText(vmlRoot);
-  }; //--------------TEXT----------------------
-
-
-  var DEFAULT_STYLE_NORMAL = 'normal';
-  var fontStyleCache = {};
-  var fontStyleCacheCount = 0;
-  var MAX_FONT_CACHE_SIZE = 100;
-  var fontEl = document.createElement('div');
-
-  var getFontStyle = function getFontStyle(fontString) {
-    var fontStyle = fontStyleCache[fontString];
-
-    if (!fontStyle) {
-      // Clear cache
-      if (fontStyleCacheCount > MAX_FONT_CACHE_SIZE) {
-        fontStyleCacheCount = 0;
-        fontStyleCache = {};
-      }
-
-      var style = fontEl.style;
-      var fontFamily;
-
-      try {
-        style.font = fontString;
-        fontFamily = style.fontFamily.split(',')[0];
-      } catch (e) {}
-
-      fontStyle = {
-        style: style.fontStyle || DEFAULT_STYLE_NORMAL,
-        variant: style.fontVariant || DEFAULT_STYLE_NORMAL,
-        weight: style.fontWeight || DEFAULT_STYLE_NORMAL,
-        size: parseFloat(style.fontSize || 12) | 0,
-        family: fontFamily || 'Microsoft YaHei'
-      };
-      fontStyleCache[fontString] = fontStyle;
-      fontStyleCacheCount++;
-    }
-
-    return fontStyle;
-  };
-
-  var textMeasureEl; // Overwrite measure text method
-
-  textContain.$override('measureText', function (text, textFont) {
-    var doc = vmlCore.doc;
-
-    if (!textMeasureEl) {
-      textMeasureEl = doc.createElement('div');
-      textMeasureEl.style.cssText = 'position:absolute;top:-20000px;left:0;' + 'padding:0;margin:0;border:none;white-space:pre;';
-      vmlCore.doc.body.appendChild(textMeasureEl);
-    }
-
-    try {
-      textMeasureEl.style.font = textFont;
-    } catch (ex) {// Ignore failures to set to invalid font.
-    }
-
-    textMeasureEl.innerHTML = ''; // Don't use innerHTML or innerText because they allow markup/whitespace.
-
-    textMeasureEl.appendChild(doc.createTextNode(text));
-    return {
-      width: textMeasureEl.offsetWidth
-    };
-  });
-  var tmpRect = new BoundingRect();
-
-  var drawRectText = function drawRectText(vmlRoot, rect, textRect, fromTextEl) {
-    var style = this.style; // Optimize, avoid normalize every time.
-
-    this.__dirty && textUtil.normalizeTextStyle(style, true);
-    var text = style.text; // Convert to string
-
-    text != null && (text += '');
-
-    if (!text) {
-      return;
-    } // Convert rich text to plain text. Rich text is not supported in
-    // IE8-, but tags in rich text template will be removed.
-
-
-    if (style.rich) {
-      var contentBlock = textContain.parseRichText(text, style);
-      text = [];
-
-      for (var i = 0; i < contentBlock.lines.length; i++) {
-        var tokens = contentBlock.lines[i].tokens;
-        var textLine = [];
-
-        for (var j = 0; j < tokens.length; j++) {
-          textLine.push(tokens[j].text);
-        }
-
-        text.push(textLine.join(''));
-      }
-
-      text = text.join('\n');
-    }
-
-    var x;
-    var y;
-    var align = style.textAlign;
-    var verticalAlign = style.textVerticalAlign;
-    var fontStyle = getFontStyle(style.font); // FIXME encodeHtmlAttribute ?
-
-    var font = fontStyle.style + ' ' + fontStyle.variant + ' ' + fontStyle.weight + ' ' + fontStyle.size + 'px "' + fontStyle.family + '"';
-    textRect = textRect || textContain.getBoundingRect(text, font, align, verticalAlign, style.textPadding, style.textLineHeight); // Transform rect to view space
-
-    var m = this.transform; // Ignore transform for text in other element
-
-    if (m && !fromTextEl) {
-      tmpRect.copy(rect);
-      tmpRect.applyTransform(m);
-      rect = tmpRect;
-    }
-
-    if (!fromTextEl) {
-      var textPosition = style.textPosition; // Text position represented by coord
-
-      if (textPosition instanceof Array) {
-        x = rect.x + parsePercent(textPosition[0], rect.width);
-        y = rect.y + parsePercent(textPosition[1], rect.height);
-        align = align || 'left';
-      } else {
-        var res = this.calculateTextPosition ? this.calculateTextPosition({}, style, rect) : textContain.calculateTextPosition({}, style, rect);
-        x = res.x;
-        y = res.y; // Default align and baseline when has textPosition
-
-        align = align || res.textAlign;
-        verticalAlign = verticalAlign || res.textVerticalAlign;
-      }
-    } else {
-      x = rect.x;
-      y = rect.y;
-    }
-
-    x = textContain.adjustTextX(x, textRect.width, align);
-    y = textContain.adjustTextY(y, textRect.height, verticalAlign); // Force baseline 'middle'
-
-    y += textRect.height / 2; // let fontSize = fontStyle.size;
-    // 1.75 is an arbitrary number, as there is no info about the text baseline
-    // switch (baseline) {
-    // case 'hanging':
-    // case 'top':
-    //     y += fontSize / 1.75;
-    //     break;
-    //     case 'middle':
-    //         break;
-    //     default:
-    //     // case null:
-    //     // case 'alphabetic':
-    //     // case 'ideographic':
-    //     // case 'bottom':
-    //         y -= fontSize / 2.25;
-    //         break;
-    // }
-    // switch (align) {
-    //     case 'left':
-    //         break;
-    //     case 'center':
-    //         x -= textRect.width / 2;
-    //         break;
-    //     case 'right':
-    //         x -= textRect.width;
-    //         break;
-    // case 'end':
-    // align = elementStyle.direction == 'ltr' ? 'right' : 'left';
-    // break;
-    // case 'start':
-    // align = elementStyle.direction == 'rtl' ? 'right' : 'left';
-    // break;
-    // default:
-    //     align = 'left';
-    // }
-
-    var createNode = vmlCore.createNode;
-    var textVmlEl = this._textVmlEl;
-    var pathEl;
-    var textPathEl;
-    var skewEl;
-
-    if (!textVmlEl) {
-      textVmlEl = createNode('line');
-      pathEl = createNode('path');
-      textPathEl = createNode('textpath');
-      skewEl = createNode('skew'); // FIXME Why here is not cammel case
-      // Align 'center' seems wrong
-
-      textPathEl.style['v-text-align'] = 'left';
-      initRootElStyle(textVmlEl);
-      pathEl.textpathok = true;
-      textPathEl.on = true;
-      textVmlEl.from = '0 0';
-      textVmlEl.to = '1000 0.05';
-      append(textVmlEl, skewEl);
-      append(textVmlEl, pathEl);
-      append(textVmlEl, textPathEl);
-      this._textVmlEl = textVmlEl;
-    } else {
-      // 这里是在前面 appendChild 保证顺序的前提下
-      skewEl = textVmlEl.firstChild;
-      pathEl = skewEl.nextSibling;
-      textPathEl = pathEl.nextSibling;
-    }
-
-    var coords = [x, y];
-    var textVmlElStyle = textVmlEl.style; // Ignore transform for text in other element
-
-    if (m && fromTextEl) {
-      applyTransform(coords, coords, m);
-      skewEl.on = true;
-      skewEl.matrix = m[0].toFixed(3) + comma + m[2].toFixed(3) + comma + m[1].toFixed(3) + comma + m[3].toFixed(3) + ',0,0'; // Text position
-
-      skewEl.offset = (mathRound(coords[0]) || 0) + ',' + (mathRound(coords[1]) || 0); // Left top point as origin
-
-      skewEl.origin = '0 0';
-      textVmlElStyle.left = '0px';
-      textVmlElStyle.top = '0px';
-    } else {
-      skewEl.on = false;
-      textVmlElStyle.left = mathRound(x) + 'px';
-      textVmlElStyle.top = mathRound(y) + 'px';
-    }
-
-    textPathEl.string = encodeHtmlAttribute(text); // TODO
-
-    try {
-      textPathEl.style.font = font;
-    } // Error font format
-    catch (e) {}
-
-    updateFillAndStroke(textVmlEl, 'fill', {
-      fill: style.textFill,
-      opacity: style.opacity
-    }, this);
-    updateFillAndStroke(textVmlEl, 'stroke', {
-      stroke: style.textStroke,
-      opacity: style.opacity,
-      lineDash: style.lineDash || null // style.lineDash can be `false`.
-
-    }, this);
-    textVmlEl.style.zIndex = getZIndex(this.zlevel, this.z, this.z2); // Attached to root
-
-    append(vmlRoot, textVmlEl);
-  };
-
-  var removeRectText = function removeRectText(vmlRoot) {
-    remove(vmlRoot, this._textVmlEl);
-    this._textVmlEl = null;
-  };
-
-  var appendRectText = function appendRectText(vmlRoot) {
-    append(vmlRoot, this._textVmlEl);
-  };
-
-  var list = [RectText, Displayable, QImage, Path, Text]; // In case Displayable has been mixed in RectText
-
-  for (var i = 0; i < list.length; i++) {
-    var proto = list[i].prototype;
-    proto.drawRectText = drawRectText;
-    proto.removeRectText = removeRectText;
-    proto.appendRectText = appendRectText;
-  }
-  /**
-   * @class qrenderer.vml.Text
-   * 
-   * @docauthor 大漠穷秋 damoqiongqiu@126.com
-   */
-
-
-  Text.prototype.brushVML = function (vmlRoot) {
-    var style = this.style;
-
-    if (style.text != null) {
-      this.drawRectText(vmlRoot, {
-        x: style.x || 0,
-        y: style.y || 0,
-        width: 0,
-        height: 0
-      }, this.getBoundingRect(), true);
-    } else {
-      this.removeRectText(vmlRoot);
-    }
-  };
-
-  Text.prototype.onRemove = function (vmlRoot) {
-    this.removeRectText(vmlRoot);
-  };
-
-  Text.prototype.onAdd = function (vmlRoot) {
-    this.appendRectText(vmlRoot);
-  };
-}
-}, function(modId) { var map = {"../core/env":1581942127615,"../core/utils/vector":1581942127620,"../graphic/transform/BoundingRect":1581942127638,"../core/utils/color_util":1581942127636,"../core/contain/text":1581942127652,"../graphic/utils/text_util":1581942127651,"../graphic/RectText":1581942127650,"../graphic/Displayable":1581942127649,"../graphic/Image":1581942127648,"../graphic/Text":1581942127672,"../graphic/Path":1581942127659,"../graphic/PathProxy":1581942127660,"../graphic/gradient/Gradient":1581942127684,"./core":1581942127710,"../graphic/constants":1581942127618}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127710, function(require, module, exports) {
-var env = require("../core/env");
-
-var urn = 'urn:schemas-microsoft-com:vml';
-var win = typeof window === 'undefined' ? null : window;
-var vmlInited = false;
-var doc = win && win.document; // Avoid assign to an exported variable, for transforming to cjs.
-
-var doCreateNode;
-
-if (doc && !env.canvasSupported) {
-  try {
-    !doc.namespaces.qrvml && doc.namespaces.add('qrvml', urn);
-
-    doCreateNode = function doCreateNode(tagName) {
-      return doc.createElement('<qrvml:' + tagName + ' class="qrvml">');
-    };
-  } catch (e) {
-    doCreateNode = function doCreateNode(tagName) {
-      return doc.createElement('<' + tagName + ' xmlns="' + urn + '" class="qrvml">');
-    };
-  }
-} // From raphael
-
-
-function initVML() {
-  if (vmlInited || !doc) {
-    return;
-  }
-
-  vmlInited = true;
-  var styleSheets = doc.styleSheets;
-
-  if (styleSheets.length < 31) {
-    doc.createStyleSheet().addRule('.qrvml', 'behavior:url(#default#VML)');
-  } else {
-    // http://msdn.microsoft.com/en-us/library/ms531194%28VS.85%29.aspx
-    styleSheets[0].addRule('.qrvml', 'behavior:url(#default#VML)');
-  }
-}
-
-function createNode(tagName) {
-  return doCreateNode(tagName);
-}
-
-exports.doc = doc;
-exports.initVML = initVML;
-exports.createNode = createNode;
-}, function(modId) { var map = {"../core/env":1581942127615}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1581942127711, function(require, module, exports) {
-var vmlCore = require("./core");
-
-var dataUtil = require("../core/utils/data_structure_util");
-
-/**
- * @class qrenderer.svg.VMLPainter
- * 
- * VMLPainter.
- * 
- * @docauthor 大漠穷秋 damoqiongqiu@126.com
- */
-
-/**
- * @method constructor VMLPainter
- * @param {*} root 
- * @param {*} storage 
- */
-function VMLPainter(root, storage) {
-  vmlCore.initVML();
-  this.root = root;
-  this.storage = storage;
-  var vmlViewport = document.createElement('div');
-  var vmlRoot = document.createElement('div');
-  vmlViewport.style.cssText = 'display:inline-block;overflow:hidden;position:relative;width:300px;height:150px;';
-  vmlRoot.style.cssText = 'position:absolute;left:0;top:0;';
-  root.appendChild(vmlViewport);
-  this._vmlRoot = vmlRoot;
-  this._vmlViewport = vmlViewport;
-  this.resize(); // Modify storage
-
-  var oldDelFromStorage = storage.delFromStorage;
-  var oldAddToStorage = storage.addToStorage;
-
-  storage.delFromStorage = function (el) {
-    oldDelFromStorage.call(storage, el);
-
-    if (el) {
-      el.onRemove && el.onRemove(vmlRoot);
-    }
-  };
-
-  storage.addToStorage = function (el) {
-    // Displayable already has a vml node
-    el.onAdd && el.onAdd(vmlRoot);
-    oldAddToStorage.call(storage, el);
-  };
-
-  this._firstPaint = true;
-}
-
-VMLPainter.prototype = {
-  constructor: VMLPainter,
-
-  /**
-   * @method getType
-   */
-  getType: function getType() {
-    return 'vml';
-  },
-
-  /**
-   * @method getViewportRoot
-   * @return {HTMLDivElement}
-   */
-  getViewportRoot: function getViewportRoot() {
-    return this._vmlViewport;
-  },
-
-  /**
-   * @method getViewportRootOffset
-   */
-  getViewportRootOffset: function getViewportRootOffset() {
-    var viewportRoot = this.getViewportRoot();
-
-    if (viewportRoot) {
-      return {
-        offsetLeft: viewportRoot.offsetLeft || 0,
-        offsetTop: viewportRoot.offsetTop || 0
-      };
-    }
-  },
-
-  /**
-   * @method refresh 刷新
-   */
-  refresh: function refresh() {
-    var list = this.storage.getDisplayList(true, true);
-
-    this._paintList(list);
-  },
-
-  /**
-   * @private
-   * @method _paintList
-   * @param {*} list 
-   */
-  _paintList: function _paintList(list) {
-    var vmlRoot = this._vmlRoot;
-
-    for (var i = 0; i < list.length; i++) {
-      var el = list[i];
-
-      if (el.invisible || el.ignore) {
-        if (!el.__alreadyNotVisible) {
-          el.onRemove(vmlRoot);
-        } // Set as already invisible
-
-
-        el.__alreadyNotVisible = true;
-      } else {
-        if (el.__alreadyNotVisible) {
-          el.onAdd(vmlRoot);
-        }
-
-        el.__alreadyNotVisible = false;
-
-        if (el.__dirty) {
-          el.beforeBrush && el.beforeBrush();
-          (el.brushVML || el.brush).call(el, vmlRoot);
-          el.afterBrush && el.afterBrush();
-        }
-      }
-
-      el.__dirty = false;
-    }
-
-    if (this._firstPaint) {
-      // Detached from document at first time
-      // to avoid page refreshing too many times
-      // FIXME 如果每次都先 removeChild 可能会导致一些填充和描边的效果改变
-      this._vmlViewport.appendChild(vmlRoot);
-
-      this._firstPaint = false;
-    }
-  },
-
-  /**
-   * @method resize
-   * @param {Number} width 
-   * @param {Number} height 
-   */
-  resize: function resize(width, height) {
-    width = width == null ? this._getWidth() : width;
-    height = height == null ? this._getHeight() : height;
-
-    if (this._width !== width || this._height !== height) {
-      this._width = width;
-      this._height = height;
-      var vmlViewportStyle = this._vmlViewport.style;
-      vmlViewportStyle.width = width + 'px';
-      vmlViewportStyle.height = height + 'px';
-    }
-  },
-
-  /**
-   * @method dispose
-   */
-  dispose: function dispose() {
-    this.root.innerHTML = '';
-    this._vmlRoot = this._vmlViewport = this.storage = null;
-  },
-
-  /**
-   * @method getWidth
-   */
-  getWidth: function getWidth() {
-    return this._width;
-  },
-
-  /**
-   * @method getHeight
-   */
-  getHeight: function getHeight() {
-    return this._height;
-  },
-
-  /**
-   * @method clear
-   */
-  clear: function clear() {
-    if (this._vmlViewport) {
-      this.root.removeChild(this._vmlViewport);
-    }
-  },
-
-  /**
-   * @private
-   * @method _getWidth
-   */
-  _getWidth: function _getWidth() {
-    var root = this.root;
-    var stl = root.currentStyle;
-    return (root.clientWidth || dataUtil.parseInt10(stl.width)) - dataUtil.parseInt10(stl.paddingLeft) - dataUtil.parseInt10(stl.paddingRight) | 0;
-  },
-
-  /**
-   * @private
-   * @method _getHeight
-   */
-  _getHeight: function _getHeight() {
-    var root = this.root;
-    var stl = root.currentStyle;
-    return (root.clientHeight || dataUtil.parseInt10(stl.height)) - dataUtil.parseInt10(stl.paddingTop) - dataUtil.parseInt10(stl.paddingBottom) | 0;
-  }
-}; // Not supported methods
-
-function createMethodNotSupport(method) {
-  return function () {
-    console.log('In IE8.0 VML mode painter not support method "' + method + '"');
-  };
-} // Unsupported methods
-
-
-['getLayer', 'insertLayer', 'eachLayer', 'eachBuiltinLayer', 'eachOtherLayer', 'getLayers', 'modLayer', 'delLayer', 'clearLayer', 'toDataURL', 'pathToImage'].forEach(function (name, index) {
-  VMLPainter.prototype[name] = createMethodNotSupport(name);
-});
-var _default = VMLPainter;
-module.exports = _default;
-}, function(modId) { var map = {"./core":1581942127710,"../core/utils/data_structure_util":1581942127617}; return __REQUIRE__(map[modId], modId); })
-return __REQUIRE__(1581942127612);
+}, function(modId) { var map = {"./Definable":1582083283790,"../../core/utils/class_util":1582083283704}; return __REQUIRE__(map[modId], modId); })
+return __REQUIRE__(1582083283697);
 })()
 //# sourceMappingURL=index.js.map

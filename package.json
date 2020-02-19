@@ -9,6 +9,6 @@
   "author": "大漠穷秋",
   "license": "MIT",
   "dependencies": {
-    "quark-renderer": "^1.0.11"
+    "quark-renderer": "^1.0.14"
   }
 }
