@@ -4,7 +4,7 @@ var __DEFINE__ = function(modId, func, req) { var m = { exports: {}, _tempexport
 var __REQUIRE__ = function(modId, source) { if(!__MODS__[modId]) return require(source); if(!__MODS__[modId].status) { var m = __MODS__[modId].m; m._exports = m._tempexports; var desp = Object.getOwnPropertyDescriptor(m, "exports"); if (desp && desp.configurable) Object.defineProperty(m, "exports", { set: function (val) { if(typeof val === "object" && val !== m._exports) { m._exports.__proto__ = val.__proto__; Object.keys(val).forEach(function (k) { m._exports[k] = val[k]; }); } m._tempexports = val }, get: function () { return m._tempexports; } }); __MODS__[modId].status = 1; __MODS__[modId].func(__MODS__[modId].req, m, m.exports); } return __MODS__[modId].m.exports; };
 var __REQUIRE_WILDCARD__ = function(obj) { if(obj && obj.__esModule) { return obj; } else { var newObj = {}; if(obj != null) { for(var k in obj) { if (Object.prototype.hasOwnProperty.call(obj, k)) newObj[k] = obj[k]; } } newObj.default = obj; return newObj; } };
 var __REQUIRE_DEFAULT__ = function(obj) { return obj && obj.__esModule ? obj.default : obj; };
-__DEFINE__(1582083283697, function(require, module, exports) {
+__DEFINE__(1582161598597, function(require, module, exports) {
 var _quarkRenderer = require("./lib/quark-renderer");
 
 (function () {
@@ -24,8 +24,8 @@ var _export = require("./lib/export");
 })();
 
 require("./lib/svg/svg");
-}, function(modId) {var map = {"./lib/quark-renderer":1582083283698,"./lib/export":1582083283742,"./lib/svg/svg":1582083283784}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283698, function(require, module, exports) {
+}, function(modId) {var map = {"./lib/quark-renderer":1582161598598,"./lib/export":1582161598642,"./lib/svg/svg":1582161598684}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598598, function(require, module, exports) {
 var guid = require("./core/utils/guid");
 
 var env = require("./core/env");
@@ -178,7 +178,7 @@ function () {
      */
 
     this.storage = new Storage();
-    var rendererType = options.renderer | 'canvas'; // TODO:WebGL
+    var rendererType = options.renderer;
 
     if (!rendererType || !painterMap[rendererType]) {
       rendererType = 'canvas';
@@ -694,8 +694,8 @@ exports.init = init;
 exports.dispose = dispose;
 exports.getInstance = getInstance;
 exports.registerPainter = registerPainter;
-}, function(modId) { var map = {"./core/utils/guid":1582083283699,"./core/env":1582083283700,"./event/QRendererEventHandler":1582083283701,"./Storage":1582083283711,"./CanvasPainter":1582083283725,"./animation/GlobalAnimationMgr":1582083283740,"./event/DomEventProxy":1582083283741,"./core/contain/text":1582083283737}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283699, function(require, module, exports) {
+}, function(modId) { var map = {"./core/utils/guid":1582161598599,"./core/env":1582161598600,"./event/QRendererEventHandler":1582161598601,"./Storage":1582161598611,"./CanvasPainter":1582161598625,"./animation/GlobalAnimationMgr":1582161598640,"./event/DomEventProxy":1582161598641,"./core/contain/text":1582161598637}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598599, function(require, module, exports) {
 /**
  * 生成唯一id
  * @author errorrik (errorrik@gmail.com)
@@ -708,7 +708,7 @@ function _default() {
 
 module.exports = _default;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283700, function(require, module, exports) {
+__DEFINE__(1582161598600, function(require, module, exports) {
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 /**
@@ -861,7 +861,7 @@ if ((typeof wx === "undefined" ? "undefined" : _typeof(wx)) === 'object' && type
 var _default = env;
 module.exports = _default;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283701, function(require, module, exports) {
+__DEFINE__(1582161598601, function(require, module, exports) {
 var dataUtil = require("../core/utils/data_structure_util");
 
 var classUtil = require("../core/utils/class_util");
@@ -1316,8 +1316,8 @@ dataUtil.each(['click', 'mousedown', 'mouseup', 'mousewheel', 'dblclick', 'conte
 classUtil.mixin(QRendererEventHandler, Eventful);
 var _default = QRendererEventHandler;
 module.exports = _default;
-}, function(modId) { var map = {"../core/utils/data_structure_util":1582083283702,"../core/utils/class_util":1582083283704,"../core/utils/vector":1582083283705,"../core/utils/event_util":1582083283706,"./MultiDragDrop":1582083283709,"./Eventful":1582083283707,"./GestureMgr":1582083283710}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283702, function(require, module, exports) {
+}, function(modId) { var map = {"../core/utils/data_structure_util":1582161598602,"../core/utils/class_util":1582161598604,"../core/utils/vector":1582161598605,"../core/utils/event_util":1582161598606,"./MultiDragDrop":1582161598609,"./Eventful":1582161598607,"./GestureMgr":1582161598610}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598602, function(require, module, exports) {
 var _constants = require("../../graphic/constants");
 
 var mathFloor = _constants.mathFloor;
@@ -2195,8 +2195,8 @@ exports.cloneValue = cloneValue;
 exports.rgba2String = rgba2String;
 exports.getArrayDim = getArrayDim;
 exports.parseInt10 = parseInt10;
-}, function(modId) { var map = {"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283703, function(require, module, exports) {
+}, function(modId) { var map = {"../../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598603, function(require, module, exports) {
 var ContextCachedBy = {
   NONE: 0,
   STYLE_BIND: 1,
@@ -2294,7 +2294,7 @@ exports.mathTan = mathTan;
 exports.mathTanh = mathTanh;
 exports.mathTrunc = mathTrunc;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283704, function(require, module, exports) {
+__DEFINE__(1582161598604, function(require, module, exports) {
 /**
  * 构造类继承关系
  *
@@ -2406,7 +2406,7 @@ exports.inheritProperties = inheritProperties;
 exports.defaults = defaults;
 exports.copyOwnProperties = copyOwnProperties;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283705, function(require, module, exports) {
+__DEFINE__(1582161598605, function(require, module, exports) {
 var _constants = require("../../graphic/constants");
 
 var mathSqrt = _constants.mathSqrt;
@@ -2727,8 +2727,8 @@ exports.lerp = lerp;
 exports.applyTransform = applyTransform;
 exports.min = min;
 exports.max = max;
-}, function(modId) { var map = {"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283706, function(require, module, exports) {
+}, function(modId) { var map = {"../../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598606, function(require, module, exports) {
 var Eventful = require("../../event/Eventful");
 
 exports.Dispatcher = Eventful;
@@ -3038,8 +3038,8 @@ exports.removeEventListener = removeEventListener;
 exports.stop = stop;
 exports.isMiddleOrRightButtonOnMouseUpDown = isMiddleOrRightButtonOnMouseUpDown;
 exports.notLeftMouse = notLeftMouse;
-}, function(modId) { var map = {"../../event/Eventful":1582083283707,"../env":1582083283700,"./four_points_transform":1582083283708}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283707, function(require, module, exports) {
+}, function(modId) { var map = {"../../event/Eventful":1582161598607,"../env":1582161598600,"./four_points_transform":1582161598608}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598607, function(require, module, exports) {
 /**
  * @abstract
  * @class qrenderer.event.Eventful
@@ -3371,7 +3371,7 @@ function _on(eventful, event, query, handler, context, isOnce) {
 var _default = Eventful;
 module.exports = _default;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283708, function(require, module, exports) {
+__DEFINE__(1582161598608, function(require, module, exports) {
 var _constants = require("../../graphic/constants");
 
 var mathLog = _constants.mathLog;
@@ -3469,8 +3469,8 @@ function buildTransformer(src, dest) {
 }
 
 exports.buildTransformer = buildTransformer;
-}, function(modId) { var map = {"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283709, function(require, module, exports) {
+}, function(modId) { var map = {"../../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598609, function(require, module, exports) {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -3649,7 +3649,7 @@ function () {
 
 module.exports = MultiDragDrop;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283710, function(require, module, exports) {
+__DEFINE__(1582161598610, function(require, module, exports) {
 var eventUtil = require("../core/utils/event_util");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -3774,8 +3774,8 @@ function () {
 
 var _default = GestureMgr;
 module.exports = _default;
-}, function(modId) { var map = {"../core/utils/event_util":1582083283706}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283711, function(require, module, exports) {
+}, function(modId) { var map = {"../core/utils/event_util":1582161598606}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598611, function(require, module, exports) {
 var util = require("./core/utils/data_structure_util");
 
 var env = require("./core/env");
@@ -4051,8 +4051,8 @@ Storage.prototype = {
 };
 var _default = Storage;
 module.exports = _default;
-}, function(modId) { var map = {"./core/utils/data_structure_util":1582083283702,"./core/env":1582083283700,"./graphic/Group":1582083283712,"./core/utils/timsort":1582083283724}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283712, function(require, module, exports) {
+}, function(modId) { var map = {"./core/utils/data_structure_util":1582161598602,"./core/env":1582161598600,"./graphic/Group":1582161598612,"./core/utils/timsort":1582161598624}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598612, function(require, module, exports) {
 var classUtil = require("../core/utils/class_util");
 
 var Element = require("./Element");
@@ -4476,8 +4476,8 @@ function (_Element) {
 
 var _default = Group;
 module.exports = _default;
-}, function(modId) { var map = {"../core/utils/class_util":1582083283704,"./Element":1582083283713,"./transform/BoundingRect":1582083283723,"../core/utils/data_structure_util":1582083283702}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283713, function(require, module, exports) {
+}, function(modId) { var map = {"../core/utils/class_util":1582161598604,"./Element":1582161598613,"./transform/BoundingRect":1582161598623,"../core/utils/data_structure_util":1582161598602}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598613, function(require, module, exports) {
 var guid = require("../core/utils/guid");
 
 var Eventful = require("../event/Eventful");
@@ -4895,8 +4895,8 @@ classUtil.mixin(Element, Transformable);
 classUtil.mixin(Element, Eventful);
 var _default = Element;
 module.exports = _default;
-}, function(modId) { var map = {"../core/utils/guid":1582083283699,"../event/Eventful":1582083283707,"./transform/Transformable":1582083283714,"../animation/Animatable":1582083283716,"../core/utils/data_structure_util":1582083283702,"../core/utils/class_util":1582083283704}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283714, function(require, module, exports) {
+}, function(modId) { var map = {"../core/utils/guid":1582161598599,"../event/Eventful":1582161598607,"./transform/Transformable":1582161598614,"../animation/Animatable":1582161598616,"../core/utils/data_structure_util":1582161598602,"../core/utils/class_util":1582161598604}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598614, function(require, module, exports) {
 var matrix = require("../../core/utils/matrix");
 
 var vector = require("../../core/utils/vector");
@@ -5232,8 +5232,8 @@ Transformable.getLocalTransform = function (target, m) {
 
 var _default = Transformable;
 module.exports = _default;
-}, function(modId) { var map = {"../../core/utils/matrix":1582083283715,"../../core/utils/vector":1582083283705,"../constants":1582083283703,"../../core/utils/class_util":1582083283704}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283715, function(require, module, exports) {
+}, function(modId) { var map = {"../../core/utils/matrix":1582161598615,"../../core/utils/vector":1582161598605,"../constants":1582161598603,"../../core/utils/class_util":1582161598604}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598615, function(require, module, exports) {
 var _constants = require("../../graphic/constants");
 
 var mathSin = _constants.mathSin;
@@ -5424,8 +5424,8 @@ exports.rotate = rotate;
 exports.scale = scale;
 exports.invert = invert;
 exports.clone = clone;
-}, function(modId) { var map = {"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283716, function(require, module, exports) {
+}, function(modId) { var map = {"../../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598616, function(require, module, exports) {
 var AnimationProcess = require("./AnimationProcess");
 
 var dataUtil = require("../core/utils/data_structure_util");
@@ -5719,8 +5719,8 @@ function setAttrByPath(el, path, prop, value) {
 
 var _default = Animatable;
 module.exports = _default;
-}, function(modId) { var map = {"./AnimationProcess":1582083283717,"../core/utils/data_structure_util":1582083283702}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283717, function(require, module, exports) {
+}, function(modId) { var map = {"./AnimationProcess":1582161598617,"../core/utils/data_structure_util":1582161598602}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598617, function(require, module, exports) {
 var dataUtil = require("../core/utils/data_structure_util");
 
 var Track = require("./Track");
@@ -6052,8 +6052,8 @@ function () {
 
 var _default = AnimationProcess;
 module.exports = _default;
-}, function(modId) { var map = {"../core/utils/data_structure_util":1582083283702,"./Track":1582083283718}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283718, function(require, module, exports) {
+}, function(modId) { var map = {"../core/utils/data_structure_util":1582161598602,"./Track":1582161598618}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598618, function(require, module, exports) {
 var Timeline = require("./Timeline");
 
 var colorUtil = require("../core/utils/color_util");
@@ -6396,8 +6396,8 @@ function () {
 }();
 
 module.exports = Track;
-}, function(modId) { var map = {"./Timeline":1582083283719,"../core/utils/color_util":1582083283721,"../core/utils/data_structure_util":1582083283702,"../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283719, function(require, module, exports) {
+}, function(modId) { var map = {"./Timeline":1582161598619,"../core/utils/color_util":1582161598621,"../core/utils/data_structure_util":1582161598602,"../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598619, function(require, module, exports) {
 var easingFuncs = require("./utils/easing");
 
 var _constants = require("../graphic/constants");
@@ -6550,8 +6550,8 @@ function () {
 }();
 
 module.exports = Timeline;
-}, function(modId) { var map = {"./utils/easing":1582083283720,"../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283720, function(require, module, exports) {
+}, function(modId) { var map = {"./utils/easing":1582161598620,"../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598620, function(require, module, exports) {
 var _constants = require("../../graphic/constants");
 
 var mathAsin = _constants.mathAsin;
@@ -6941,8 +6941,8 @@ var easing = {
 };
 var _default = easing;
 module.exports = _default;
-}, function(modId) { var map = {"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283721, function(require, module, exports) {
+}, function(modId) { var map = {"../../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598621, function(require, module, exports) {
 var LRU = require("../LRU");
 
 var _constants = require("../../graphic/constants");
@@ -7571,8 +7571,8 @@ exports.mapToColor = mapToColor;
 exports.modifyHSL = modifyHSL;
 exports.modifyAlpha = modifyAlpha;
 exports.stringify = stringify;
-}, function(modId) { var map = {"../LRU":1582083283722,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283722, function(require, module, exports) {
+}, function(modId) { var map = {"../LRU":1582161598622,"../../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598622, function(require, module, exports) {
 // Simple LRU cache use doubly linked list
 
 /**
@@ -7775,7 +7775,7 @@ LRUProto.clear = function () {
 var _default = LRU;
 module.exports = _default;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283723, function(require, module, exports) {
+__DEFINE__(1582161598623, function(require, module, exports) {
 var vec2 = require("../../core/utils/vector");
 
 var matrix = require("../../core/utils/matrix");
@@ -8012,8 +8012,8 @@ function () {
 
 var _default = BoundingRect;
 module.exports = _default;
-}, function(modId) { var map = {"../../core/utils/vector":1582083283705,"../../core/utils/matrix":1582083283715,"../constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283724, function(require, module, exports) {
+}, function(modId) { var map = {"../../core/utils/vector":1582161598605,"../../core/utils/matrix":1582161598615,"../constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598624, function(require, module, exports) {
 // https://github.com/mziccard/node-timsort
 var DEFAULT_MIN_MERGE = 32;
 var DEFAULT_MIN_GALLOPING = 7;
@@ -8681,7 +8681,7 @@ function sort(array, compare, lo, hi) {
 
 module.exports = sort;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283725, function(require, module, exports) {
+__DEFINE__(1582161598625, function(require, module, exports) {
 var requestAnimationFrame = require("./animation/utils/request_animation_frame");
 
 var _config = require("./config");
@@ -9991,8 +9991,8 @@ function () {
 }();
 
 module.exports = CanvasPainter;
-}, function(modId) { var map = {"./animation/utils/request_animation_frame":1582083283726,"./config":1582083283727,"./core/utils/data_structure_util":1582083283702,"./graphic/transform/BoundingRect":1582083283723,"./core/utils/timsort":1582083283724,"./CanvasLayer":1582083283728,"./graphic/Image":1582083283733,"./core/env":1582083283700,"./graphic/constants":1582083283703,"./core/utils/canvas_util":1582083283729,"./core/utils/guid":1582083283699}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283726, function(require, module, exports) {
+}, function(modId) { var map = {"./animation/utils/request_animation_frame":1582161598626,"./config":1582161598627,"./core/utils/data_structure_util":1582161598602,"./graphic/transform/BoundingRect":1582161598623,"./core/utils/timsort":1582161598624,"./CanvasLayer":1582161598628,"./graphic/Image":1582161598633,"./core/env":1582161598600,"./graphic/constants":1582161598603,"./core/utils/canvas_util":1582161598629,"./core/utils/guid":1582161598599}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598626, function(require, module, exports) {
 /**
  * 兼容多种运行环境的 requestAnimationFrame 方法。
  * 有两个重要的地方会依赖此方法：
@@ -10007,7 +10007,7 @@ var _default = typeof window !== 'undefined' && (window.requestAnimationFrame &&
 
 module.exports = _default;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283727, function(require, module, exports) {
+__DEFINE__(1582161598627, function(require, module, exports) {
 var dpr = 1; // If in browser environment
 
 if (typeof window !== 'undefined') {
@@ -10032,7 +10032,7 @@ var devicePixelRatio = dpr;
 exports.debugMode = debugMode;
 exports.devicePixelRatio = devicePixelRatio;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283728, function(require, module, exports) {
+__DEFINE__(1582161598628, function(require, module, exports) {
 var dataUtil = require("./core/utils/data_structure_util");
 
 var canvasUtil = require("./core/utils/canvas_util");
@@ -10316,8 +10316,8 @@ function () {
 }();
 
 module.exports = CanvasLayer;
-}, function(modId) { var map = {"./core/utils/data_structure_util":1582083283702,"./core/utils/canvas_util":1582083283729,"./graphic/Style":1582083283730,"./graphic/Pattern":1582083283732,"./core/utils/guid":1582083283699}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283729, function(require, module, exports) {
+}, function(modId) { var map = {"./core/utils/data_structure_util":1582161598602,"./core/utils/canvas_util":1582161598629,"./graphic/Style":1582161598630,"./graphic/Pattern":1582161598632,"./core/utils/guid":1582161598599}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598629, function(require, module, exports) {
 var guid = require("./guid");
 
 /**
@@ -10369,8 +10369,8 @@ function getContext(canvasInstance) {
 
 exports.createCanvas = createCanvas;
 exports.getContext = getContext;
-}, function(modId) { var map = {"./guid":1582083283699}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283730, function(require, module, exports) {
+}, function(modId) { var map = {"./guid":1582161598599}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598630, function(require, module, exports) {
 var fixShadow = require("./utils/fix_shadow");
 
 var _constants = require("./constants");
@@ -10877,8 +10877,8 @@ for (var i = 0; i < STYLE_COMMON_PROPS.length; i++) {
 Style.getGradient = styleProto.getGradient;
 var _default = Style;
 module.exports = _default;
-}, function(modId) { var map = {"./utils/fix_shadow":1582083283731,"./constants":1582083283703,"../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283731, function(require, module, exports) {
+}, function(modId) { var map = {"./utils/fix_shadow":1582161598631,"./constants":1582161598603,"../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598631, function(require, module, exports) {
 var SHADOW_PROPS = {
   'shadowBlur': 1,
   'shadowOffsetX': 1,
@@ -10901,7 +10901,7 @@ function _default(ctx, propName, value) {
 
 module.exports = _default;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283732, function(require, module, exports) {
+__DEFINE__(1582161598632, function(require, module, exports) {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -10949,7 +10949,7 @@ function () {
 var _default = Pattern;
 module.exports = _default;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283733, function(require, module, exports) {
+__DEFINE__(1582161598633, function(require, module, exports) {
 var Displayable = require("./Displayable");
 
 var BoundingRect = require("./transform/BoundingRect");
@@ -11083,8 +11083,8 @@ function (_Displayable) {
 }(Displayable);
 
 module.exports = ZImage;
-}, function(modId) { var map = {"./Displayable":1582083283734,"./transform/BoundingRect":1582083283723,"../core/utils/data_structure_util":1582083283702,"./utils/image":1582083283738}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283734, function(require, module, exports) {
+}, function(modId) { var map = {"./Displayable":1582161598634,"./transform/BoundingRect":1582161598623,"../core/utils/data_structure_util":1582161598602,"./utils/image":1582161598638}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598634, function(require, module, exports) {
 var classUtil = require("../core/utils/class_util");
 
 var Style = require("./Style");
@@ -11421,8 +11421,8 @@ function (_Element) {
 classUtil.mixin(Displayable, RectText);
 var _default = Displayable;
 module.exports = _default;
-}, function(modId) { var map = {"../core/utils/class_util":1582083283704,"./Style":1582083283730,"./Element":1582083283713,"./RectText":1582083283735}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283735, function(require, module, exports) {
+}, function(modId) { var map = {"../core/utils/class_util":1582161598604,"./Style":1582161598630,"./Element":1582161598613,"./RectText":1582161598635}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598635, function(require, module, exports) {
 var textUtil = require("./utils/text_util");
 
 var BoundingRect = require("./transform/BoundingRect");
@@ -11489,8 +11489,8 @@ RectText.prototype = {
 };
 var _default = RectText;
 module.exports = _default;
-}, function(modId) { var map = {"./utils/text_util":1582083283736,"./transform/BoundingRect":1582083283723,"./constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283736, function(require, module, exports) {
+}, function(modId) { var map = {"./utils/text_util":1582161598636,"./transform/BoundingRect":1582161598623,"./constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598636, function(require, module, exports) {
 var dataUtil = require("../../core/utils/data_structure_util");
 
 var textContain = require("../../core/contain/text");
@@ -12031,8 +12031,8 @@ exports.getStroke = getStroke;
 exports.getFill = getFill;
 exports.parsePercent = parsePercent;
 exports.needDrawText = needDrawText;
-}, function(modId) { var map = {"../../core/utils/data_structure_util":1582083283702,"../../core/contain/text":1582083283737,"./round_rect":1582083283739,"./image":1582083283738,"./fix_shadow":1582083283731,"../constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283737, function(require, module, exports) {
+}, function(modId) { var map = {"../../core/utils/data_structure_util":1582161598602,"../../core/contain/text":1582161598637,"./round_rect":1582161598639,"./image":1582161598638,"./fix_shadow":1582161598631,"../constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598637, function(require, module, exports) {
 var BoundingRect = require("../../graphic/transform/BoundingRect");
 
 var imageHelper = require("../../graphic/utils/image");
@@ -12760,8 +12760,8 @@ exports.measureText = measureText;
 exports.parsePlainText = parsePlainText;
 exports.parseRichText = parseRichText;
 exports.makeFont = makeFont;
-}, function(modId) { var map = {"../../graphic/transform/BoundingRect":1582083283723,"../../graphic/utils/image":1582083283738,"../utils/data_structure_util":1582083283702,"../utils/canvas_util":1582083283729,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283738, function(require, module, exports) {
+}, function(modId) { var map = {"../../graphic/transform/BoundingRect":1582161598623,"../../graphic/utils/image":1582161598638,"../utils/data_structure_util":1582161598602,"../utils/canvas_util":1582161598629,"../../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598638, function(require, module, exports) {
 var LRU = require("../../core/LRU");
 
 var globalImageCache = new LRU(50);
@@ -12850,8 +12850,8 @@ function isImageReady(image) {
 exports.findExistImage = findExistImage;
 exports.createOrUpdateImage = createOrUpdateImage;
 exports.isImageReady = isImageReady;
-}, function(modId) { var map = {"../../core/LRU":1582083283722}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283739, function(require, module, exports) {
+}, function(modId) { var map = {"../../core/LRU":1582161598622}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598639, function(require, module, exports) {
 /**
  * @param {Object} ctx
  * @param {Object} shape
@@ -12943,7 +12943,7 @@ function buildPath(ctx, shape) {
 
 exports.buildPath = buildPath;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283740, function(require, module, exports) {
+__DEFINE__(1582161598640, function(require, module, exports) {
 var dataUtil = require("../core/utils/data_structure_util");
 
 var classUtil = require("../core/utils/class_util");
@@ -13051,9 +13051,8 @@ function () {
     /**
      * @private
      * @method _startLoop
-     * TODO:需要确认在大量节点下的动画性能问题，比如 100 万个元素同时进行动画
-     * 这里开始利用requestAnimationFrame递归执行
-     * 如果这里的 _update() 不能在16ms的时间内完成一轮动画，就会出现明显的卡顿。
+     * 这里开始利用requestAnimationFrame递归执行，如果这里的 _update() 不能在16ms的
+     * 时间内完成一轮动画，就会出现明显的卡顿。
      * 按照 W3C 的推荐标准 60fps，这里的 step 函数大约每隔 16ms 被调用一次
      * @see https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
      */
@@ -13158,8 +13157,8 @@ function () {
 classUtil.mixin(GlobalAnimationMgr, Dispatcher);
 var _default = GlobalAnimationMgr;
 module.exports = _default;
-}, function(modId) { var map = {"../core/utils/data_structure_util":1582083283702,"../core/utils/class_util":1582083283704,"../core/utils/event_util":1582083283706,"./utils/request_animation_frame":1582083283726}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283741, function(require, module, exports) {
+}, function(modId) { var map = {"../core/utils/data_structure_util":1582161598602,"../core/utils/class_util":1582161598604,"../core/utils/event_util":1582161598606,"./utils/request_animation_frame":1582161598626}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598641, function(require, module, exports) {
 var Eventful = require("./Eventful");
 
 var eventUtil = require("../core/utils/event_util");
@@ -13665,8 +13664,8 @@ DomEventProxy.prototype.togglePageEvent = function (enableOrDisable) {
 classUtil.mixin(DomEventProxy, Eventful);
 var _default = DomEventProxy;
 module.exports = _default;
-}, function(modId) { var map = {"./Eventful":1582083283707,"../core/utils/event_util":1582083283706,"../core/utils/data_structure_util":1582083283702,"../core/utils/class_util":1582083283704,"../core/env":1582083283700}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283742, function(require, module, exports) {
+}, function(modId) { var map = {"./Eventful":1582161598607,"../core/utils/event_util":1582161598606,"../core/utils/data_structure_util":1582161598602,"../core/utils/class_util":1582161598604,"../core/env":1582161598600}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598642, function(require, module, exports) {
 var dataUtil = require("./core/utils/data_structure_util");
 
 exports.dataUtil = dataUtil;
@@ -13799,8 +13798,8 @@ exports.Pattern = _Pattern;
 var _BoundingRect = require("./graphic/transform/BoundingRect");
 
 exports.BoundingRect = _BoundingRect;
-}, function(modId) { var map = {"./core/utils/data_structure_util":1582083283702,"./core/utils/color_util":1582083283721,"./core/utils/path_util":1582083283743,"./core/utils/canvas_util":1582083283729,"./core/utils/matrix":1582083283715,"./core/utils/vector":1582083283705,"./svg/SVGParser":1582083283756,"./graphic/Group":1582083283712,"./graphic/Path":1582083283744,"./graphic/Image":1582083283733,"./graphic/CompoundPath":1582083283770,"./graphic/Text":1582083283757,"./graphic/IncrementalDisplayable":1582083283771,"./graphic/shape/Arc":1582083283772,"./graphic/shape/BezierCurve":1582083283773,"./graphic/shape/Circle":1582083283758,"./graphic/shape/Droplet":1582083283774,"./graphic/shape/Ellipse":1582083283761,"./graphic/shape/Heart":1582083283775,"./graphic/shape/Isogon":1582083283776,"./graphic/shape/Line":1582083283762,"./graphic/shape/Polygon":1582083283763,"./graphic/shape/Polyline":1582083283767,"./graphic/shape/Rect":1582083283759,"./graphic/shape/Ring":1582083283777,"./graphic/shape/Rose":1582083283778,"./graphic/shape/Sector":1582083283779,"./graphic/shape/Star":1582083283781,"./graphic/shape/Trochoid":1582083283782,"./graphic/gradient/LinearGradient":1582083283768,"./graphic/gradient/RadialGradient":1582083283783,"./graphic/Pattern":1582083283732,"./graphic/transform/BoundingRect":1582083283723}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283743, function(require, module, exports) {
+}, function(modId) { var map = {"./core/utils/data_structure_util":1582161598602,"./core/utils/color_util":1582161598621,"./core/utils/path_util":1582161598643,"./core/utils/canvas_util":1582161598629,"./core/utils/matrix":1582161598615,"./core/utils/vector":1582161598605,"./svg/SVGParser":1582161598656,"./graphic/Group":1582161598612,"./graphic/Path":1582161598644,"./graphic/Image":1582161598633,"./graphic/CompoundPath":1582161598670,"./graphic/Text":1582161598657,"./graphic/IncrementalDisplayable":1582161598671,"./graphic/shape/Arc":1582161598672,"./graphic/shape/BezierCurve":1582161598673,"./graphic/shape/Circle":1582161598658,"./graphic/shape/Droplet":1582161598674,"./graphic/shape/Ellipse":1582161598661,"./graphic/shape/Heart":1582161598675,"./graphic/shape/Isogon":1582161598676,"./graphic/shape/Line":1582161598662,"./graphic/shape/Polygon":1582161598663,"./graphic/shape/Polyline":1582161598667,"./graphic/shape/Rect":1582161598659,"./graphic/shape/Ring":1582161598677,"./graphic/shape/Rose":1582161598678,"./graphic/shape/Sector":1582161598679,"./graphic/shape/Star":1582161598681,"./graphic/shape/Trochoid":1582161598682,"./graphic/gradient/LinearGradient":1582161598668,"./graphic/gradient/RadialGradient":1582161598683,"./graphic/Pattern":1582161598632,"./graphic/transform/BoundingRect":1582161598623}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598643, function(require, module, exports) {
 var Path = require("../../graphic/Path");
 
 var PathProxy = require("../../graphic/PathProxy");
@@ -14233,8 +14232,8 @@ function mergePath(pathEls, opts) {
 
 exports.createFromString = createFromString;
 exports.mergePath = mergePath;
-}, function(modId) { var map = {"../../graphic/Path":1582083283744,"../../graphic/PathProxy":1582083283745,"./transform_path":1582083283755,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283744, function(require, module, exports) {
+}, function(modId) { var map = {"../../graphic/Path":1582161598644,"../../graphic/PathProxy":1582161598645,"./transform_path":1582161598655,"../../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598644, function(require, module, exports) {
 var Displayable = require("./Displayable");
 
 var dataUtil = require("../core/utils/data_structure_util");
@@ -14680,8 +14679,8 @@ function (_Displayable) {
 
 var _default = Path;
 module.exports = _default;
-}, function(modId) { var map = {"./Displayable":1582083283734,"../core/utils/data_structure_util":1582083283702,"../core/utils/class_util":1582083283704,"./PathProxy":1582083283745,"../core/contain/path":1582083283748,"./Pattern":1582083283732,"../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283745, function(require, module, exports) {
+}, function(modId) { var map = {"./Displayable":1582161598634,"../core/utils/data_structure_util":1582161598602,"../core/utils/class_util":1582161598604,"./PathProxy":1582161598645,"../core/contain/path":1582161598648,"./Pattern":1582161598632,"../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598645, function(require, module, exports) {
 var curve = require("../core/utils/curve_util");
 
 var vec2 = require("../core/utils/vector");
@@ -15460,8 +15459,8 @@ PathProxy.prototype = {
 PathProxy.CMD = CMD;
 var _default = PathProxy;
 module.exports = _default;
-}, function(modId) { var map = {"../core/utils/curve_util":1582083283746,"../core/utils/vector":1582083283705,"../core/utils/bbox_util":1582083283747,"./transform/BoundingRect":1582083283723,"../config":1582083283727,"../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283746, function(require, module, exports) {
+}, function(modId) { var map = {"../core/utils/curve_util":1582161598646,"../core/utils/vector":1582161598605,"../core/utils/bbox_util":1582161598647,"./transform/BoundingRect":1582161598623,"../config":1582161598627,"../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598646, function(require, module, exports) {
 var _vector = require("./vector");
 
 var v2Create = _vector.create;
@@ -15992,8 +15991,8 @@ exports.quadraticRootAt = quadraticRootAt;
 exports.quadraticExtremum = quadraticExtremum;
 exports.quadraticSubdivide = quadraticSubdivide;
 exports.quadraticProjectPoint = quadraticProjectPoint;
-}, function(modId) { var map = {"./vector":1582083283705,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283747, function(require, module, exports) {
+}, function(modId) { var map = {"./vector":1582161598605,"../../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598647, function(require, module, exports) {
 var vec2 = require("./vector");
 
 var curve = require("./curve_util");
@@ -16218,8 +16217,8 @@ exports.fromLine = fromLine;
 exports.fromCubic = fromCubic;
 exports.fromQuadratic = fromQuadratic;
 exports.fromArc = fromArc;
-}, function(modId) { var map = {"./vector":1582083283705,"./curve_util":1582083283746,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283748, function(require, module, exports) {
+}, function(modId) { var map = {"./vector":1582161598605,"./curve_util":1582161598646,"../../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598648, function(require, module, exports) {
 var PathProxy = require("../../graphic/PathProxy");
 
 var line = require("./line");
@@ -16635,8 +16634,8 @@ function containStroke(pathData, lineWidth, x, y) {
 
 exports.contain = contain;
 exports.containStroke = containStroke;
-}, function(modId) { var map = {"../../graphic/PathProxy":1582083283745,"./line":1582083283749,"./cubic":1582083283750,"./quadratic":1582083283751,"./arc":1582083283752,"./radian_util":1582083283753,"../utils/curve_util":1582083283746,"./winding_line":1582083283754,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283749, function(require, module, exports) {
+}, function(modId) { var map = {"../../graphic/PathProxy":1582161598645,"./line":1582161598649,"./cubic":1582161598650,"./quadratic":1582161598651,"./arc":1582161598652,"./radian_util":1582161598653,"../utils/curve_util":1582161598646,"./winding_line":1582161598654,"../../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598649, function(require, module, exports) {
 /**
  * 线段包含判断
  * @param  {Number}  x0
@@ -16677,7 +16676,7 @@ function containStroke(x0, y0, x1, y1, lineWidth, x, y) {
 
 exports.containStroke = containStroke;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283750, function(require, module, exports) {
+__DEFINE__(1582161598650, function(require, module, exports) {
 var curve = require("../utils/curve_util");
 
 /**
@@ -16711,8 +16710,8 @@ function containStroke(x0, y0, x1, y1, x2, y2, x3, y3, lineWidth, x, y) {
 }
 
 exports.containStroke = containStroke;
-}, function(modId) { var map = {"../utils/curve_util":1582083283746}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283751, function(require, module, exports) {
+}, function(modId) { var map = {"../utils/curve_util":1582161598646}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598651, function(require, module, exports) {
 var _curve_util = require("../utils/curve_util");
 
 var quadraticProjectPoint = _curve_util.quadraticProjectPoint;
@@ -16746,8 +16745,8 @@ function containStroke(x0, y0, x1, y1, x2, y2, lineWidth, x, y) {
 }
 
 exports.containStroke = containStroke;
-}, function(modId) { var map = {"../utils/curve_util":1582083283746}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283752, function(require, module, exports) {
+}, function(modId) { var map = {"../utils/curve_util":1582161598646}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598652, function(require, module, exports) {
 var _radian_util = require("./radian_util");
 
 var normalizeRadian = _radian_util.normalizeRadian;
@@ -16814,8 +16813,8 @@ function containStroke(cx, cy, r, startAngle, endAngle, anticlockwise, lineWidth
 }
 
 exports.containStroke = containStroke;
-}, function(modId) { var map = {"./radian_util":1582083283753,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283753, function(require, module, exports) {
+}, function(modId) { var map = {"./radian_util":1582161598653,"../../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598653, function(require, module, exports) {
 var _constants = require("../../graphic/constants");
 
 var PI2 = _constants.PI2;
@@ -16831,8 +16830,8 @@ function normalizeRadian(angle) {
 }
 
 exports.normalizeRadian = normalizeRadian;
-}, function(modId) { var map = {"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283754, function(require, module, exports) {
+}, function(modId) { var map = {"../../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598654, function(require, module, exports) {
 function windingLine(x0, y0, x1, y1, x, y) {
   if (y > y0 && y > y1 || y < y0 && y < y1) {
     return 0;
@@ -16857,7 +16856,7 @@ function windingLine(x0, y0, x1, y1, x, y) {
 
 module.exports = windingLine;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283755, function(require, module, exports) {
+__DEFINE__(1582161598655, function(require, module, exports) {
 var PathProxy = require("../../graphic/PathProxy");
 
 var _vector = require("./vector");
@@ -16961,8 +16960,8 @@ function _default(path, m) {
 }
 
 module.exports = _default;
-}, function(modId) { var map = {"../../graphic/PathProxy":1582083283745,"./vector":1582083283705,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283756, function(require, module, exports) {
+}, function(modId) { var map = {"../../graphic/PathProxy":1582161598645,"./vector":1582161598605,"../../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598656, function(require, module, exports) {
 var Group = require("../graphic/Group");
 
 var QImage = require("../graphic/Image");
@@ -17676,8 +17675,8 @@ function parseSVG(xml, opt) {
 exports.parseXML = parseXML;
 exports.makeViewBoxTransform = makeViewBoxTransform;
 exports.parseSVG = parseSVG;
-}, function(modId) { var map = {"../graphic/Group":1582083283712,"../graphic/Image":1582083283733,"../graphic/Text":1582083283757,"../graphic/shape/Circle":1582083283758,"../graphic/shape/Rect":1582083283759,"../graphic/shape/Ellipse":1582083283761,"../graphic/shape/Line":1582083283762,"../graphic/Path":1582083283744,"../graphic/shape/Polygon":1582083283763,"../graphic/shape/Polyline":1582083283767,"../graphic/gradient/LinearGradient":1582083283768,"../graphic/Style":1582083283730,"../core/utils/matrix":1582083283715,"../core/utils/path_util":1582083283743,"../core/utils/data_structure_util":1582083283702,"../core/utils/class_util":1582083283704,"../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283757, function(require, module, exports) {
+}, function(modId) { var map = {"../graphic/Group":1582161598612,"../graphic/Image":1582161598633,"../graphic/Text":1582161598657,"../graphic/shape/Circle":1582161598658,"../graphic/shape/Rect":1582161598659,"../graphic/shape/Ellipse":1582161598661,"../graphic/shape/Line":1582161598662,"../graphic/Path":1582161598644,"../graphic/shape/Polygon":1582161598663,"../graphic/shape/Polyline":1582161598667,"../graphic/gradient/LinearGradient":1582161598668,"../graphic/Style":1582161598630,"../core/utils/matrix":1582161598615,"../core/utils/path_util":1582161598643,"../core/utils/data_structure_util":1582161598602,"../core/utils/class_util":1582161598604,"../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598657, function(require, module, exports) {
 var Displayable = require("./Displayable");
 
 var dataUtil = require("../core/utils/data_structure_util");
@@ -17795,8 +17794,8 @@ function (_Displayable) {
 }(Displayable);
 
 module.exports = Text;
-}, function(modId) { var map = {"./Displayable":1582083283734,"../core/utils/data_structure_util":1582083283702,"../core/contain/text":1582083283737,"./utils/text_util":1582083283736,"./constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283758, function(require, module, exports) {
+}, function(modId) { var map = {"./Displayable":1582161598634,"../core/utils/data_structure_util":1582161598602,"../core/contain/text":1582161598637,"./utils/text_util":1582161598636,"./constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598658, function(require, module, exports) {
 var Path = require("../Path");
 
 var dataUtil = require("../../core/utils/data_structure_util");
@@ -17886,8 +17885,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Circle;
-}, function(modId) { var map = {"../Path":1582083283744,"../../core/utils/data_structure_util":1582083283702,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283759, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582161598644,"../../core/utils/data_structure_util":1582161598602,"../../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598659, function(require, module, exports) {
 var Path = require("../Path");
 
 var roundRectHelper = require("../utils/round_rect");
@@ -18002,8 +18001,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Rect;
-}, function(modId) { var map = {"../Path":1582083283744,"../utils/round_rect":1582083283739,"../utils/sub_pixel_optimize":1582083283760,"../../core/utils/data_structure_util":1582083283702}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283760, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582161598644,"../utils/round_rect":1582161598639,"../utils/sub_pixel_optimize":1582161598660,"../../core/utils/data_structure_util":1582161598602}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598660, function(require, module, exports) {
 var _constants = require("../../graphic/constants");
 
 var mathRound = _constants.mathRound;
@@ -18108,8 +18107,8 @@ function subPixelOptimize(position, lineWidth, positiveOrNegative) {
 exports.subPixelOptimizeLine = subPixelOptimizeLine;
 exports.subPixelOptimizeRect = subPixelOptimizeRect;
 exports.subPixelOptimize = subPixelOptimize;
-}, function(modId) { var map = {"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283761, function(require, module, exports) {
+}, function(modId) { var map = {"../../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598661, function(require, module, exports) {
 var Path = require("../Path");
 
 var dataUtil = require("../../core/utils/data_structure_util");
@@ -18198,8 +18197,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Droplet;
-}, function(modId) { var map = {"../Path":1582083283744,"../../core/utils/data_structure_util":1582083283702}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283762, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582161598644,"../../core/utils/data_structure_util":1582161598602}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598662, function(require, module, exports) {
 var Path = require("../Path");
 
 var _sub_pixel_optimize = require("../utils/sub_pixel_optimize");
@@ -18329,8 +18328,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Line;
-}, function(modId) { var map = {"../Path":1582083283744,"../utils/sub_pixel_optimize":1582083283760,"../../core/utils/data_structure_util":1582083283702}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283763, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582161598644,"../utils/sub_pixel_optimize":1582161598660,"../../core/utils/data_structure_util":1582161598602}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598663, function(require, module, exports) {
 var Path = require("../Path");
 
 var polyHelper = require("../utils/poly");
@@ -18405,8 +18404,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Polygon;
-}, function(modId) { var map = {"../Path":1582083283744,"../utils/poly":1582083283764,"../../core/utils/data_structure_util":1582083283702}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283764, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582161598644,"../utils/poly":1582161598664,"../../core/utils/data_structure_util":1582161598602}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598664, function(require, module, exports) {
 var smoothSpline = require("./smooth_spline");
 
 var smoothBezier = require("./smooth_bezier");
@@ -18444,8 +18443,8 @@ function buildPath(ctx, shape, closePath) {
 }
 
 exports.buildPath = buildPath;
-}, function(modId) { var map = {"./smooth_spline":1582083283765,"./smooth_bezier":1582083283766}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283765, function(require, module, exports) {
+}, function(modId) { var map = {"./smooth_spline":1582161598665,"./smooth_bezier":1582161598666}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598665, function(require, module, exports) {
 var _vector = require("../../core/utils/vector");
 
 var v2Distance = _vector.distance;
@@ -18517,8 +18516,8 @@ function _default(points, isLoop) {
 }
 
 module.exports = _default;
-}, function(modId) { var map = {"../../core/utils/vector":1582083283705,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283766, function(require, module, exports) {
+}, function(modId) { var map = {"../../core/utils/vector":1582161598605,"../../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598666, function(require, module, exports) {
 var _vector = require("../../core/utils/vector");
 
 var v2Min = _vector.min;
@@ -18623,8 +18622,8 @@ function _default(points, smooth, isLoop, constraint) {
 }
 
 module.exports = _default;
-}, function(modId) { var map = {"../../core/utils/vector":1582083283705}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283767, function(require, module, exports) {
+}, function(modId) { var map = {"../../core/utils/vector":1582161598605}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598667, function(require, module, exports) {
 var Path = require("../Path");
 
 var polyHelper = require("../utils/poly");
@@ -18703,8 +18702,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Polyline;
-}, function(modId) { var map = {"../Path":1582083283744,"../utils/poly":1582083283764,"../../core/utils/data_structure_util":1582083283702}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283768, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582161598644,"../utils/poly":1582161598664,"../../core/utils/data_structure_util":1582161598602}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598668, function(require, module, exports) {
 var classUtil = require("../../core/utils/class_util");
 
 var Gradient = require("./Gradient");
@@ -18744,8 +18743,8 @@ LinearGradient.prototype = {
 classUtil.inherits(LinearGradient, Gradient);
 var _default = LinearGradient;
 module.exports = _default;
-}, function(modId) { var map = {"../../core/utils/class_util":1582083283704,"./Gradient":1582083283769}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283769, function(require, module, exports) {
+}, function(modId) { var map = {"../../core/utils/class_util":1582161598604,"./Gradient":1582161598669}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598669, function(require, module, exports) {
 /**
  * @class qrenderer.graphic.gradient.Gradient 
  * 渐变
@@ -18772,7 +18771,7 @@ Gradient.prototype = {
 var _default = Gradient;
 module.exports = _default;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283770, function(require, module, exports) {
+__DEFINE__(1582161598670, function(require, module, exports) {
 var Path = require("./Path");
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -18915,8 +18914,8 @@ function (_Path) {
 }(Path);
 
 module.exports = CompoundPath;
-}, function(modId) { var map = {"./Path":1582083283744}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283771, function(require, module, exports) {
+}, function(modId) { var map = {"./Path":1582161598644}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598671, function(require, module, exports) {
 var classUtil = require("../core/utils/class_util");
 
 var Displayble = require("./Displayable");
@@ -19068,8 +19067,8 @@ IncrementalDisplayble.prototype = {
 classUtil.inherits(IncrementalDisplayble, Displayble);
 var _default = IncrementalDisplayble;
 module.exports = _default;
-}, function(modId) { var map = {"../core/utils/class_util":1582083283704,"./Displayable":1582083283734,"./transform/BoundingRect":1582083283723}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283772, function(require, module, exports) {
+}, function(modId) { var map = {"../core/utils/class_util":1582161598604,"./Displayable":1582161598634,"./transform/BoundingRect":1582161598623}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598672, function(require, module, exports) {
 var Path = require("../Path");
 
 var dataUtil = require("../../core/utils/data_structure_util");
@@ -19166,8 +19165,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Arc;
-}, function(modId) { var map = {"../Path":1582083283744,"../../core/utils/data_structure_util":1582083283702,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283773, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582161598644,"../../core/utils/data_structure_util":1582161598602,"../../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598673, function(require, module, exports) {
 var Path = require("../Path");
 
 var vec2 = require("../../core/utils/vector");
@@ -19327,8 +19326,8 @@ function (_Path) {
 }(Path);
 
 module.exports = BezierCurve;
-}, function(modId) { var map = {"../Path":1582083283744,"../../core/utils/vector":1582083283705,"../../core/utils/curve_util":1582083283746,"../../core/utils/data_structure_util":1582083283702}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283774, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582161598644,"../../core/utils/vector":1582161598605,"../../core/utils/curve_util":1582161598646,"../../core/utils/data_structure_util":1582161598602}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598674, function(require, module, exports) {
 var Path = require("../Path");
 
 var dataUtil = require("../../core/utils/data_structure_util");
@@ -19409,8 +19408,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Droplet;
-}, function(modId) { var map = {"../Path":1582083283744,"../../core/utils/data_structure_util":1582083283702}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283775, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582161598644,"../../core/utils/data_structure_util":1582161598602}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598675, function(require, module, exports) {
 var Path = require("../Path");
 
 var dataUtil = require("../../core/utils/data_structure_util");
@@ -19490,8 +19489,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Heart;
-}, function(modId) { var map = {"../Path":1582083283744,"../../core/utils/data_structure_util":1582083283702}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283776, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582161598644,"../../core/utils/data_structure_util":1582161598602}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598676, function(require, module, exports) {
 var Path = require("../Path");
 
 var dataUtil = require("../../core/utils/data_structure_util");
@@ -19590,8 +19589,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Isogon;
-}, function(modId) { var map = {"../Path":1582083283744,"../../core/utils/data_structure_util":1582083283702,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283777, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582161598644,"../../core/utils/data_structure_util":1582161598602,"../../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598677, function(require, module, exports) {
 var Path = require("../Path");
 
 var dataUtil = require("../../core/utils/data_structure_util");
@@ -19674,8 +19673,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Ring;
-}, function(modId) { var map = {"../Path":1582083283744,"../../core/utils/data_structure_util":1582083283702,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283778, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582161598644,"../../core/utils/data_structure_util":1582161598602,"../../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598678, function(require, module, exports) {
 var Path = require("../Path");
 
 var dataUtil = require("../../core/utils/data_structure_util");
@@ -19778,8 +19777,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Rose;
-}, function(modId) { var map = {"../Path":1582083283744,"../../core/utils/data_structure_util":1582083283702,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283779, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582161598644,"../../core/utils/data_structure_util":1582161598602,"../../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598679, function(require, module, exports) {
 var Path = require("../Path");
 
 var fixClipWithShadow = require("../utils/fix_clip_with_shadow");
@@ -19887,8 +19886,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Sector;
-}, function(modId) { var map = {"../Path":1582083283744,"../utils/fix_clip_with_shadow":1582083283780,"../../core/utils/data_structure_util":1582083283702,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283780, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582161598644,"../utils/fix_clip_with_shadow":1582161598680,"../../core/utils/data_structure_util":1582161598602,"../../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598680, function(require, module, exports) {
 var env = require("../../core/env");
 
 // Fix weird bug in some version of IE11 (like 11.0.9600.178**),
@@ -19945,8 +19944,8 @@ function _default(orignalBrush) {
 }
 
 module.exports = _default;
-}, function(modId) { var map = {"../../core/env":1582083283700}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283781, function(require, module, exports) {
+}, function(modId) { var map = {"../../core/env":1582161598600}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598681, function(require, module, exports) {
 var Path = require("../Path");
 
 var dataUtil = require("../../core/utils/data_structure_util");
@@ -20060,8 +20059,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Star;
-}, function(modId) { var map = {"../Path":1582083283744,"../../core/utils/data_structure_util":1582083283702,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283782, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582161598644,"../../core/utils/data_structure_util":1582161598602,"../../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598682, function(require, module, exports) {
 var Path = require("../Path");
 
 var dataUtil = require("../../core/utils/data_structure_util");
@@ -20178,8 +20177,8 @@ function (_Path) {
 }(Path);
 
 module.exports = Trochold;
-}, function(modId) { var map = {"../Path":1582083283744,"../../core/utils/data_structure_util":1582083283702,"../../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283783, function(require, module, exports) {
+}, function(modId) { var map = {"../Path":1582161598644,"../../core/utils/data_structure_util":1582161598602,"../../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598683, function(require, module, exports) {
 var classUtil = require("../../core/utils/class_util");
 
 var Gradient = require("./Gradient");
@@ -20217,8 +20216,8 @@ RadialGradient.prototype = {
 classUtil.inherits(RadialGradient, Gradient);
 var _default = RadialGradient;
 module.exports = _default;
-}, function(modId) { var map = {"../../core/utils/class_util":1582083283704,"./Gradient":1582083283769}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283784, function(require, module, exports) {
+}, function(modId) { var map = {"../../core/utils/class_util":1582161598604,"./Gradient":1582161598669}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598684, function(require, module, exports) {
 require("./graphic");
 
 var _quarkRenderer = require("../quark-renderer");
@@ -20228,8 +20227,8 @@ var registerPainter = _quarkRenderer.registerPainter;
 var SVGPainter = require("./SVGPainter");
 
 registerPainter('svg', SVGPainter);
-}, function(modId) { var map = {"./graphic":1582083283785,"../quark-renderer":1582083283698,"./SVGPainter":1582083283787}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283785, function(require, module, exports) {
+}, function(modId) { var map = {"./graphic":1582161598685,"../quark-renderer":1582161598598,"./SVGPainter":1582161598687}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598685, function(require, module, exports) {
 var _core = require("./core");
 
 var createElement = _core.createElement;
@@ -20764,8 +20763,8 @@ svgText.brush = function (el) {
 exports.path = svgPath;
 exports.image = svgImage;
 exports.text = svgText;
-}, function(modId) { var map = {"./core":1582083283786,"../graphic/PathProxy":1582083283745,"../graphic/transform/BoundingRect":1582083283723,"../core/utils/matrix":1582083283715,"../core/contain/text":1582083283737,"../graphic/utils/text_util":1582083283736,"../graphic/Text":1582083283757,"../graphic/constants":1582083283703}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283786, function(require, module, exports) {
+}, function(modId) { var map = {"./core":1582161598686,"../graphic/PathProxy":1582161598645,"../graphic/transform/BoundingRect":1582161598623,"../core/utils/matrix":1582161598615,"../core/contain/text":1582161598637,"../graphic/utils/text_util":1582161598636,"../graphic/Text":1582161598657,"../graphic/constants":1582161598603}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598686, function(require, module, exports) {
 var svgURI = 'http://www.w3.org/2000/svg';
 
 function createElement(name) {
@@ -20774,7 +20773,7 @@ function createElement(name) {
 
 exports.createElement = createElement;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283787, function(require, module, exports) {
+__DEFINE__(1582161598687, function(require, module, exports) {
 var _core = require("./core");
 
 var createElement = _core.createElement;
@@ -20862,14 +20861,14 @@ function getSvgElement(displayable) {
 }
 /**
  * @method constructor SVGPainter
- * @param {HTMLElement} root 绘图容器
+ * @param {HTMLElement} host
  * @param {Storage} storage
  * @param {Object} opts
  */
 
 
-var SVGPainter = function SVGPainter(root, storage, opts, qrId) {
-  this.root = root;
+var SVGPainter = function SVGPainter(host, storage, opts, qrId) {
+  this.host = host;
   this.storage = storage;
   this._opts = opts = dataUtil.extend({}, opts || {});
   var svgRoot = createElement('svg');
@@ -20884,7 +20883,7 @@ var SVGPainter = function SVGPainter(root, storage, opts, qrId) {
   viewport.style.cssText = 'overflow:hidden;position:relative';
   this._svgRoot = svgRoot;
   this._viewport = viewport;
-  root.appendChild(viewport);
+  host.appendChild(viewport);
   viewport.appendChild(svgRoot);
   this.resize(opts.width, opts.height);
   this._visibleList = [];
@@ -20901,9 +20900,9 @@ SVGPainter.prototype = {
   },
 
   /**
-   * @method getViewportRoot
+   * @method getHost
    */
-  getViewportRoot: function getViewportRoot() {
+  getHost: function getHost() {
     return this._viewport;
   },
 
@@ -21154,17 +21153,17 @@ SVGPainter.prototype = {
       return parseFloat(opts[wh]);
     }
 
-    var root = this.root; // IE8 does not support getComputedStyle, but it use VML.
+    var host = this.host; // IE8 does not support getComputedStyle, but it use VML.
 
-    var stl = document.defaultView.getComputedStyle(root);
-    return (root[cwh] || dataUtil.parseInt10(stl[wh]) || dataUtil.parseInt10(root.style[wh])) - (dataUtil.parseInt10(stl[plt]) || 0) - (dataUtil.parseInt10(stl[prb]) || 0) | 0;
+    var stl = document.defaultView.getComputedStyle(host);
+    return (host[cwh] || dataUtil.parseInt10(stl[wh]) || dataUtil.parseInt10(host.style[wh])) - (dataUtil.parseInt10(stl[plt]) || 0) - (dataUtil.parseInt10(stl[prb]) || 0) | 0;
   },
 
   /**
    * @method dispose
    */
   dispose: function dispose() {
-    this.root.innerHTML = '';
+    this.host.innerHTML = '';
     this._svgRoot = this._viewport = this.storage = null;
   },
 
@@ -21173,7 +21172,7 @@ SVGPainter.prototype = {
    */
   clear: function clear() {
     if (this._viewport) {
-      this.root.removeChild(this._viewport);
+      this.host.removeChild(this._viewport);
     }
   },
 
@@ -21199,8 +21198,8 @@ function createMethodNotSupport(method) {
 });
 var _default = SVGPainter;
 module.exports = _default;
-}, function(modId) { var map = {"./core":1582083283786,"../core/utils/data_structure_util":1582083283702,"../graphic/Path":1582083283744,"../graphic/Image":1582083283733,"../graphic/Text":1582083283757,"../core/utils/array_diff2":1582083283788,"./helper/GradientManager":1582083283789,"./helper/ClippathManager":1582083283791,"./helper/ShadowManager":1582083283792,"./graphic":1582083283785}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283788, function(require, module, exports) {
+}, function(modId) { var map = {"./core":1582161598686,"../core/utils/data_structure_util":1582161598602,"../graphic/Path":1582161598644,"../graphic/Image":1582161598633,"../graphic/Text":1582161598657,"../core/utils/array_diff2":1582161598688,"./helper/GradientManager":1582161598689,"./helper/ClippathManager":1582161598691,"./helper/ShadowManager":1582161598692,"./graphic":1582161598685}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598688, function(require, module, exports) {
 // Myers' Diff Algorithm
 // Modified from https://github.com/kpdecker/jsdiff/blob/master/src/diff/base.js
 function Diff() {}
@@ -21400,7 +21399,7 @@ function _default(oldArr, newArr, callback) {
 
 module.exports = _default;
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283789, function(require, module, exports) {
+__DEFINE__(1582161598689, function(require, module, exports) {
 var Definable = require("./Definable");
 
 var dataUtil = require("../../core/utils/data_structure_util");
@@ -21653,8 +21652,8 @@ function (_Definable) {
 
 var _default = GradientManager;
 module.exports = _default;
-}, function(modId) { var map = {"./Definable":1582083283790,"../../core/utils/data_structure_util":1582083283702,"../../core/utils/class_util":1582083283704,"../../core/utils/color_util":1582083283721}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283790, function(require, module, exports) {
+}, function(modId) { var map = {"./Definable":1582161598690,"../../core/utils/data_structure_util":1582161598602,"../../core/utils/class_util":1582161598604,"../../core/utils/color_util":1582161598621}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598690, function(require, module, exports) {
 var _core = require("../core");
 
 var createElement = _core.createElement;
@@ -21972,8 +21971,8 @@ function () {
 
 var _default = Definable;
 module.exports = _default;
-}, function(modId) { var map = {"../core":1582083283786,"../../core/utils/data_structure_util":1582083283702,"../../graphic/Path":1582083283744,"../../graphic/Image":1582083283733,"../../graphic/Text":1582083283757,"../graphic":1582083283785}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283791, function(require, module, exports) {
+}, function(modId) { var map = {"../core":1582161598686,"../../core/utils/data_structure_util":1582161598602,"../../graphic/Path":1582161598644,"../../graphic/Image":1582161598633,"../../graphic/Text":1582161598657,"../graphic":1582161598685}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598691, function(require, module, exports) {
 var Definable = require("./Definable");
 
 var dataUtil = require("../../core/utils/data_structure_util");
@@ -22168,8 +22167,8 @@ function (_Definable) {
 
 var _default = ClippathManager;
 module.exports = _default;
-}, function(modId) { var map = {"./Definable":1582083283790,"../../core/utils/data_structure_util":1582083283702,"../../core/utils/class_util":1582083283704,"../../core/utils/matrix":1582083283715}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1582083283792, function(require, module, exports) {
+}, function(modId) { var map = {"./Definable":1582161598690,"../../core/utils/data_structure_util":1582161598602,"../../core/utils/class_util":1582161598604,"../../core/utils/matrix":1582161598615}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1582161598692, function(require, module, exports) {
 var Definable = require("./Definable");
 
 var classUtil = require("../../core/utils/class_util");
@@ -22396,7 +22395,7 @@ function (_Definable) {
 
 var _default = ShadowManager;
 module.exports = _default;
-}, function(modId) { var map = {"./Definable":1582083283790,"../../core/utils/class_util":1582083283704}; return __REQUIRE__(map[modId], modId); })
-return __REQUIRE__(1582083283697);
+}, function(modId) { var map = {"./Definable":1582161598690,"../../core/utils/class_util":1582161598604}; return __REQUIRE__(map[modId], modId); })
+return __REQUIRE__(1582161598597);
 })()
 //# sourceMappingURL=index.js.map

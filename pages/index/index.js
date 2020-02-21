@@ -26,5 +26,10 @@ Page({
     wx.navigateTo({
       url: '../demo-5/demo-5'
     });
+  },
+  toDemo6(){
+    wx.navigateTo({
+      url: '../demo-6/demo-6'
+    });
   }
 })

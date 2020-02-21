@@ -9,5 +9,6 @@
     <button class="weui-btn" type="primary" bindtap="toDemo3">Demo-3 动画案例1</button>
     <button class="weui-btn" type="primary" bindtap="toDemo4">Demo-4 动画案例2</button>
     <button class="weui-btn" type="primary" bindtap="toDemo5">Demo-5 动画案例3</button>
+    <button class="weui-btn" type="primary" bindtap="toDemo6">Demo-6 渲染静态对象</button>
   </view>
 </view>
